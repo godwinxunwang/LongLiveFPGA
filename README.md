@@ -6,7 +6,7 @@ Final Project - Single Cycle MIPS Microprocessor Implementation
 *****************************************************************************
 Long Live FPGA Group
 Group Members (alphabetically ordered): 
-Wei Lin, Enbo Liu, Yang Shi, Xun (Godwin) Wang, Yifei Wang, and Yao-An Tsai
+Wei Lin, Enbo Liu, Yang Shi, Yao-An Tsai, Xun (Godwin) Wang, and Yifei Wang,
 *****************************************************************************
 
 FPGA: Nexys 4 DDR
