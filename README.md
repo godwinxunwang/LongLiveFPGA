@@ -2,6 +2,7 @@
 EL-GY 6463 Advanced Hardware Design
 
 Final Project - Long Live FPGA Group
+
 Single Cycle MIPS Microprocessor Implementation
 
 Group Members (alphabetically ordered): 
