@@ -1,7 +1,7 @@
 ##Final Project - Single Cycle MIPS Microprocessor Implementation
 ###EL-GY 6463 Advanced Hardware Design
 
-### <font color=blue> LongLiveFPGA Group </font> 
+### <font color=#0099ff> LongLiveFPGA Group </font> 
 
 *****************************************************************************
 ###Group Members (alphabetically ordered): 
