@@ -1,22 +1,25 @@
-# LongLiveFPGA
-EL-GY 6463 Advanced Hardware Design
+##Final Project - Single Cycle MIPS Microprocessor Implementation
+###EL-GY 6463 Advanced Hardware Design
+### LongLiveFPGA Group 
 
-Final Project - Single Cycle MIPS Microprocessor Implementation
 
 *****************************************************************************
-Long Live FPGA Group
-Group Members (alphabetically ordered): 
-Wei Lin, Enbo Liu, Yang Shi, Yao-An Tsai, Xun (Godwin) Wang, and Yifei Wang,
+###Group Members (alphabetically ordered): 
+* Wei Lin
+* Enbo Liu
+* Yang Shi
+* Yao-An Tsai
+* Xun (Godwin) Wang
+* Yifei Wang
+
 *****************************************************************************
 
-FPGA: Nexys 4 DDR
+####FPGA: Nexys 4 DDR
 
-Platform: Windows 
+####Platform: Windows 
 
-Synthesis and Implementation Software: Xilinx ISE Design Suite
+####Synthesis and Implementation Software: Xilinx ISE Design Suite
 
-Source Code is written in VHDL
+####Source Code is written in VHDL
 
-Simulations are done in ModelSim/Isim
-
-
+####Simulations are done in ModelSim/Isim
