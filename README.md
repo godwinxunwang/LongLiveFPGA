@@ -14,6 +14,9 @@
 
 *****************************************************************************
 
+![icon](http://www.dataio.com/portals/0/iStock_000005613425Small.jpg)
+
+
 ####FPGA: Nexys 4 DDR
 
 ####Platform: Windows 
