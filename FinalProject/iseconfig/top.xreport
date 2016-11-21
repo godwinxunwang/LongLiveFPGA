@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2016-11-14T23:04:41</DateModified>
+  <DateModified>2016-11-17T11:49:48</DateModified>
   <ModuleName>top</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
   <SavedFilePath>C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/iseconfig/top.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject\</ImplementationReportsDirectory>
   <DateInitialized>2016-11-14T23:04:41</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
