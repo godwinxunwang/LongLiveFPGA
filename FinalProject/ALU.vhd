@@ -25,9 +25,9 @@ begin
 			if(opcode = "000000") then 
 				case funct is 
 					when x"10" => 
-						alu_out <= op1 + op2; -- unsigned??? overflow??? 
+						alu_out <= op1 + op2; -- signed??? overflow??? raise the exception?? How? 
 					when x"11" => 
-						alu_out <= op1 - op2; -- unsigned??? overflow??? 
+						alu_out <= op1 - op2; -- signed??? overflow??? raise the exception?? How? 
 					when x"12" => 
 						alu_out <= op1 AND op2; -- not sure ?? 
 					when x"13" => 
