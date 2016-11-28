@@ -6,7 +6,7 @@
 *****************************************************************************
 ###Group Members (alphabetically ordered): 
 * Wei Lin
-* Pharrell Liu
+* Enbo Liu
 * Yang Shi
 * Yao-An Tsai
 * Xun (Godwin) Wang
