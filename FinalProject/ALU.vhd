@@ -1,13 +1,14 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL; 
+use IEEE.NUMERIC_STD.ALL
 
 entity ALU is
 	port(
 		clr: in std_logic;
 		clk: in std_logic; 
 		op1: in std_logic_vector(31 downto 0); -- rs
-		op2: in std_logic_vector(31 downto 0); -- rt
+		op2: in std_logic_vector(31 downto 0); -- rt / imm
 		opcode: in std_logic_vector(5 downto 0); 
 		funct: in std_logic_vector(5 downto 0); 
 		alu_out: out std_logic_vector(31 downto 0)
@@ -52,11 +53,11 @@ begin
 					when 2 => -- subi
 						alu_out <= op1 - op2; 
 					when 3 => -- andi
-					
+						alu_out <= op1 AND op2; 
 					when 4 => -- ori
-					
+						alu_out <= op1 OR op2; 
 					when 5 => -- shl
-					
+						alu_out <= 
 					when 6 => -- shr
 					
 					when 7 => -- lw
