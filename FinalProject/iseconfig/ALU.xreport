@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
+<<<<<<< Updated upstream
 <<<<<<< HEAD
   <DateModified>2016-12-02T12:14:19</DateModified>
   <ModuleName>ALU</ModuleName>
@@ -9,6 +10,9 @@
   <ImplementationReportsDirectory>C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject\</ImplementationReportsDirectory>
 =======
   <DateModified>2016-12-01T07:47:57</DateModified>
+=======
+  <DateModified>2016-12-01T07:54:51</DateModified>
+>>>>>>> Stashed changes
   <ModuleName>ALU</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
   <SavedFilePath>Y:/ FPGA Project/LongLiveFPGA/FinalProject/iseconfig/ALU.xreport</SavedFilePath>

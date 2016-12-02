@@ -8,6 +8,7 @@
 <!-- Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
+<<<<<<< HEAD
 <msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.vhd&quot; into library work</arg>
 </msg>
 
@@ -21,6 +22,9 @@
 </msg>
 
 <msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/top.vhd&quot; into library work</arg>
+=======
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;Y:/ FPGA Project/LongLiveFPGA/FinalProject/to7seg_single.vhd&quot; into library work</arg>
+>>>>>>> 2c3501cd820f108c061213441f03f8879c2dbca4
 </msg>
 
 </messages>
