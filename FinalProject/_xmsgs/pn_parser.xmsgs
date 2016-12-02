@@ -11,5 +11,17 @@
 <msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.vhd&quot; into library work</arg>
 </msg>
 
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/CPU.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/DataMemory.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/Reg_32.vhd&quot; into library work</arg>
+</msg>
+
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/top.vhd&quot; into library work</arg>
+</msg>
+
 </messages>
 

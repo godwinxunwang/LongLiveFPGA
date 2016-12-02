@@ -27,6 +27,7 @@
     <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="ALU.stx"/>
     <file xil_pn:fileType="FILE_XST" xil_pn:name="ALU.xst"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_MODELSIM_LOG" xil_pn:name="vsim.wlf"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="work"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
   </files>
@@ -34,6 +35,7 @@
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
     <transform xil_pn:end_ts="1480704766" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1480704766">
       <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
     </transform>
     <transform xil_pn:end_ts="1480705242" xil_pn:in_ck="-2460808932925773918" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1480705242">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -65,10 +67,13 @@
       <outfile xil_pn:name="Reg_32.vhd"/>
       <outfile xil_pn:name="top.vhd"/>
     </transform>
-    <transform xil_pn:end_ts="1480705244" xil_pn:in_ck="-2460808932925773918" xil_pn:name="TRAN_MSimulateBehavioralModel" xil_pn:prop_ck="-357383698293900177" xil_pn:start_ts="1480705242">
+    <transform xil_pn:end_ts="1480705924" xil_pn:in_ck="-2460808932925773918" xil_pn:name="TRAN_MSimulateBehavioralModel" xil_pn:prop_ck="-357383698293900177" xil_pn:start_ts="1480705922">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="ALU.fdo"/>
+      <outfile xil_pn:name="vsim.wlf"/>
       <outfile xil_pn:name="work"/>
     </transform>
   </transforms>
