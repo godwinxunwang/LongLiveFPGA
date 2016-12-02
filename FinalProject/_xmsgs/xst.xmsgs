@@ -5,53 +5,5 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="error" file="HDLCompiler" num="1731" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 57: found &apos;<arg fmt="%d" index="1">0</arg>&apos; definitions of operator <arg fmt="%s" index="2">&quot;sll&quot;</arg>, cannot determine exact overloaded matching definition for <arg fmt="%s" index="2">&quot;sll&quot;</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="622" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 57: Near <arg fmt="%s" index="1">std_logic_vector</arg> ; type conversion expression type cannot be determined uniquely
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1731" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 59: found &apos;<arg fmt="%d" index="1">0</arg>&apos; definitions of operator <arg fmt="%s" index="2">&quot;srl&quot;</arg>, cannot determine exact overloaded matching definition for <arg fmt="%s" index="2">&quot;srl&quot;</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="622" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 59: Near <arg fmt="%s" index="1">std_logic_vector</arg> ; type conversion expression type cannot be determined uniquely
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 48: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 50: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 52: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 54: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 56: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 58: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 60: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 62: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 64: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 70: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="839" delta="old" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 76: Type <arg fmt="%s" index="1">std_logic_vector</arg> does not match with the integer literal
-</msg>
-
-<msg type="error" file="HDLCompiler" num="854" delta="new" >"C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 18: Unit &lt;<arg fmt="%s" index="1">behavioral</arg>&gt; ignored due to previous errors.
-</msg>
-
 </messages>
 
