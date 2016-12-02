@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <generated_project xmlns="http://www.xilinx.com/XMLSchema" xmlns:xil_pn="http://www.xilinx.com/XMLSchema">
 
@@ -23,100 +22,60 @@
   <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="FinalProject.xise"/>
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
-    <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="ALU.cmd_log"/>
-    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="ALU.lso"/>
-    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="ALU.prj"/>
-    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="ALU.syr"/>
-    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="ALU.xst"/>
-    <file xil_pn:fileType="FILE_HTML" xil_pn:name="ALU_envsettings.html"/>
-    <file xil_pn:fileType="FILE_HTML" xil_pn:name="ALU_summary.html"/>
-    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="ALU_xst.xrpt"/>
+    <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="RegisterFile.cmd_log"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="RegisterFile.lso"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="RegisterFile.prj"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="RegisterFile.syr"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="RegisterFile.xst"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="RegisterFile_envsettings.html"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="RegisterFile_summary.html"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="RegisterFile_xst.xrpt"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
-    <file xil_pn:fileType="FILE_LOG" xil_pn:name="compxlib.log"/>
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="webtalk_pn.xml"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
-    <transform xil_pn:end_ts="1480702180" xil_pn:name="TRANEXT_compLibraries2_virtex5" xil_pn:prop_ck="-2596407475312354954" xil_pn:start_ts="1480702125">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="compxlib.log"/>
-    </transform>
-    <transform xil_pn:end_ts="1480701938" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1480701938">
+    <transform xil_pn:end_ts="1480613571" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1480613571">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1480701938" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="-1713701936175210205" xil_pn:start_ts="1480701938">
+    <transform xil_pn:end_ts="1480613571" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="-8491250107302199546" xil_pn:start_ts="1480613571">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1480701938" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="-145484139098844951" xil_pn:start_ts="1480701938">
+    <transform xil_pn:end_ts="1480613571" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="-1898951373091298740" xil_pn:start_ts="1480613571">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1480701938" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1480701938">
+    <transform xil_pn:end_ts="1480613571" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1480613571">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1480701938" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="-3321771038117726843" xil_pn:start_ts="1480701938">
+    <transform xil_pn:end_ts="1480613571" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="3693875251935617448" xil_pn:start_ts="1480613571">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1480701938" xil_pn:name="TRAN_SubProjectPreToStructuralProxy" xil_pn:prop_ck="3206529612922900429" xil_pn:start_ts="1480701938">
+    <transform xil_pn:end_ts="1480613571" xil_pn:name="TRAN_SubProjectPreToStructuralProxy" xil_pn:prop_ck="3206529612922900429" xil_pn:start_ts="1480613571">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1480701938" xil_pn:name="TRAN_platgen" xil_pn:prop_ck="9078719104113778355" xil_pn:start_ts="1480701938">
+    <transform xil_pn:end_ts="1480613571" xil_pn:name="TRAN_platgen" xil_pn:prop_ck="9115915626073166678" xil_pn:start_ts="1480613571">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1480702094" xil_pn:in_ck="959212755210466666" xil_pn:name="TRANEXT_xstsynthesize_virtex6" xil_pn:prop_ck="-2283224129376860432" xil_pn:start_ts="1480702084">
+    <transform xil_pn:end_ts="1480613896" xil_pn:in_ck="-5850717762315414838" xil_pn:name="TRANEXT_xstsynthesize_virtex6" xil_pn:prop_ck="-5620362763394279085" xil_pn:start_ts="1480613863">
       <status xil_pn:value="FailedRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="ALU.lso"/>
-      <outfile xil_pn:name="ALU.prj"/>
-      <outfile xil_pn:name="ALU.syr"/>
-      <outfile xil_pn:name="ALU.xst"/>
-      <outfile xil_pn:name="ALU_xst.xrpt"/>
+      <outfile xil_pn:name="RegisterFile.lso"/>
+      <outfile xil_pn:name="RegisterFile.prj"/>
+      <outfile xil_pn:name="RegisterFile.syr"/>
+      <outfile xil_pn:name="RegisterFile.xst"/>
+      <outfile xil_pn:name="RegisterFile_xst.xrpt"/>
       <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
       <outfile xil_pn:name="webtalk_pn.xml"/>
       <outfile xil_pn:name="xst"/>
     </transform>
-    <transform xil_pn:end_ts="1480701948" xil_pn:name="TRAN_compileBCD2" xil_pn:prop_ck="-859656264962225638" xil_pn:start_ts="1480701948">
-      <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
-    </transform>
   </transforms>
 
 </generated_project>
-=======
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<generated_project xmlns="http://www.xilinx.com/XMLSchema" xmlns:xil_pn="http://www.xilinx.com/XMLSchema">
-
-  <!--                                                          -->
-
-  <!--             For tool use only. Do not edit.              -->
-
-  <!--                                                          -->
-
-  <!-- ProjectNavigator created generated project file.         -->
-
-  <!-- For use in tracking generated file and other information -->
-
-  <!-- allowing preservation of process status.                 -->
-
-  <!--                                                          -->
-
-  <!-- Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved. -->
-
-  <version xmlns="http://www.xilinx.com/XMLSchema">11.1</version>
-
-  <sourceproject xmlns="http://www.xilinx.com/XMLSchema" xil_pn:fileType="FILE_XISE" xil_pn:name="FinalProject.xise"/>
-
-  <files xmlns="http://www.xilinx.com/XMLSchema"/>
-
-  <transforms xmlns="http://www.xilinx.com/XMLSchema"/>
-
-</generated_project>
->>>>>>> origin/master

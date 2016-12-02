@@ -3,11 +3,11 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="pn" timeStamp="Fri Dec 02 13:08:05 2016">
+<application name="pn" timeStamp="Thu Dec 01 09:37:45 2016">
 <section name="Project Information" visible="false">
 <property name="ProjectID" value="E75C0FEEA8E64DF7B1874E831FFB6139" type="project"/>
 <property name="ProjectIteration" value="0" type="project"/>
-<property name="ProjectFile" value="C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/FinalProject.xise" type="project"/>
+<property name="ProjectFile" value="Y:/ FPGA Project/LongLiveFPGA/FinalProject/FinalProject.xise" type="project"/>
 <property name="ProjectCreationTimestamp" value="2016-11-14T23:04:23" type="project"/>
 </section>
 <section name="Project Statistics" visible="true">
@@ -17,6 +17,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="PROP_LastAppliedStrategy" value="Xilinx Default (unlocked)" type="design"/>
 <property name="PROP_ManualCompileOrderImp" value="false" type="design"/>
 <property name="PROP_PropSpecInProjFile" value="Store all values" type="design"/>
+<property name="PROP_SelectedInstanceHierarchicalPath" value="/RegisterFile" type="process"/>
 <property name="PROP_Simulator" value="Modelsim-PE VHDL" type="design"/>
 <property name="PROP_SynthTopFile" value="changed" type="process"/>
 <property name="PROP_Top_Level_Module_Type" value="HDL" type="design"/>
@@ -26,7 +27,8 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="PROP_intWbtProjectID" value="E75C0FEEA8E64DF7B1874E831FFB6139" type="design"/>
 <property name="PROP_intWorkingDirLocWRTProjDir" value="Same" type="design"/>
 <property name="PROP_intWorkingDirUsed" value="No" type="design"/>
-<property name="PROP_AutoTop" value="true" type="design"/>
+<property name="PROP_selectedSimRootSourceNode_behav" value="work.RegisterFile" type="process"/>
+<property name="PROP_AutoTop" value="false" type="design"/>
 <property name="PROP_DevFamily" value="Artix7" type="design"/>
 <property name="PROP_ibiswriterOutputFile" value="CPU" type="process"/>
 <property name="PROP_DevDevice" value="xc7a100t" type="design"/>
@@ -40,7 +42,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="PROP_netgenPostSynthesisSimModelName" value="CPU_synthesis.vhd" type="process"/>
 <property name="PROP_netgenPostXlateSimModelName" value="CPU_translate.vhd" type="process"/>
 <property name="PROP_netgenRenameTopLevEntTo" value="CPU" type="process"/>
-<property name="FILE_VHDL" value="2" type="source"/>
+<property name="FILE_VHDL" value="8" type="source"/>
 </section>
 </application>
 </document>
