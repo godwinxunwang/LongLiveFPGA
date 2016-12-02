@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2016-11-28T18:29:46</DateModified>
+  <DateModified>2016-12-02T12:14:19</DateModified>
   <ModuleName>ALU</ModuleName>
   <SummaryTimeStamp>Unknown</SummaryTimeStamp>
   <SavedFilePath>C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/iseconfig/ALU.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject\</ImplementationReportsDirectory>
   <DateInitialized>2016-11-28T18:29:46</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>

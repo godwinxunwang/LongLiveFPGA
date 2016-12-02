@@ -20,7 +20,7 @@ architecture Behavioral of ALU is
 begin
 	process(clk, clr, opcode, funct) begin
 		if(clr='1') then 
-			alu_out <= 0; 
+			alu_out <= x"0000"; 
 		elsif(clk'event and clk='1') then 
 			-- R-type instruction -- 
 			if(opcode = "000000") then 
@@ -39,12 +39,8 @@ begin
 			-- J-type instruction -- 
 			elsif(opcode = "001100") then -- PC = {(PC + 4)[31:28], address, 00}
 				-- Should PC be part of the ALU? 
-				
-			
 			
 			elsif(opcode = "111111") then -- Halt
-			
-			
 			
 			-- I-type instruction -- 
 			else
@@ -66,18 +62,22 @@ begin
 					when 8 => -- sw
 					
 					when 9 => -- blt
-					
+						if(op1 < op2) then 
+							alu_out <= x"0001"; 
+						else
+							alu_out <= x"0000"; 
+						end if; 
 					when 10 => -- beq
 						if(op1 = op2) then
-							alu_out <= 1; 
+							alu_out <= x"0001"; 
 						else
-							alu_out <= 0; 
+							alu_out <= x"0000"; 
 						end if; 
 					when 11 => -- bne
 						if(op1 = op2) then 
-							alu_out <= 0; 
+							alu_out <= x"0000"; 
 						else 
-							alu_out <= 1; 
+							alu_out <= x"0001"; 
 						end if; 
 				end case; 
 			end if; 

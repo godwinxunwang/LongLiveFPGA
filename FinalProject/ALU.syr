@@ -1,0 +1,135 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.09 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.09 secs
+ 
+--> Reading design: ALU.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "ALU.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "ALU"
+Output Format                      : NGC
+Target Device                      : xc7a100t-1-csg324
+
+---- Source Options
+Top Module Name                    : ALU
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 32
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Parsing VHDL file "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" into library work
+Parsing entity <ALU>.
+Parsing architecture <Behavioral> of entity <alu>.
+ERROR:HDLCompiler:1731 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 57: found '0' definitions of operator "sll", cannot determine exact overloaded matching definition for "sll"
+ERROR:HDLCompiler:622 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 57: Near std_logic_vector ; type conversion expression type cannot be determined uniquely
+ERROR:HDLCompiler:1731 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 59: found '0' definitions of operator "srl", cannot determine exact overloaded matching definition for "srl"
+ERROR:HDLCompiler:622 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 59: Near std_logic_vector ; type conversion expression type cannot be determined uniquely
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 48: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 50: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 52: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 54: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 56: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 58: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 60: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 62: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 64: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 70: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:839 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 76: Type std_logic_vector does not match with the integer literal
+ERROR:HDLCompiler:854 - "C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd" Line 18: Unit <behavioral> ignored due to previous errors.
+VHDL file C:\Users\wangx\OneDrive\GitHub\LongLiveFPGA\FinalProject\ALU.vhd ignored due to errors
+--> 
+
+Total memory usage is 294220 kilobytes
+
+Number of errors   :   16 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+

@@ -1,0 +1,2 @@
+xst -intstyle ise -ifn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.xst" -ofn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.syr" 
+xst -intstyle ise -ifn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.xst" -ofn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.syr" 
