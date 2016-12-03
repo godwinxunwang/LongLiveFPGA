@@ -1,2 +1,8 @@
 xst -intstyle ise -ifn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.xst" -ofn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.syr" 
 xst -intstyle ise -ifn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.xst" -ofn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.syr" 
+xst -intstyle ise -ifn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.xst" -ofn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/ALU.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-1 ALU.ngc ALU.ngd  
+map -intstyle ise -p xc7a100t-csg324-1 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -mt off -ir off -pr off -lc off -power off -o ALU_map.ncd ALU.ngd ALU.pcf 
+par -w -intstyle ise -ol high -mt off ALU_map.ncd ALU.ncd ALU.pcf 
+trce -intstyle ise -v 3 -s 1 -n 3 -fastpaths -xml ALU.twx ALU.ncd -o ALU.twr ALU.pcf 
+netgen -intstyle ise -s 1  -pcf ALU.pcf -rpw 100 -tpw 0 -ar Structure -tm CPU -insert_pp_buffers true -w -dir netgen/par -ofmt vhdl -sim ALU.ncd CPU_timesim.vhd 

@@ -1,19 +1,20 @@
 # Reading C:/Modeltech_pe_edu_10.4a/tcl/vsim/pref.tcl
-# do {ALU.fdo}
+# do {CPU.tdo}
 # ** Warning: (vlib-34) Library already exists at "work".
 # 
 # Model Technology ModelSim PE Student Edition vcom 10.4a Compiler 2015.03 Apr  7 2015
-# Start time: 14:12:08 on Dec 02,2016
-# vcom -reportprogress 300 -explicit -93 ALU.vhd 
+# Start time: 14:38:49 on Dec 02,2016
+# vcom -reportprogress 300 -explicit -93 netgen/par/CPU_timesim.vhd 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
 # -- Loading package std_logic_1164
-# -- Loading package std_logic_arith
-# -- Loading package STD_LOGIC_UNSIGNED
-# -- Loading package NUMERIC_STD
-# -- Compiling entity ALU
-# -- Compiling architecture Behavioral of ALU
-# End time: 14:12:08 on Dec 02,2016, Elapsed time: 0:00:00
+# -- Loading package VITAL_Timing
+# -- Loading package VCOMPONENTS
+# -- Loading package VITAL_Primitives
+# -- Loading package VPACKAGE
+# -- Compiling entity CPU
+# -- Compiling architecture Structure of CPU
+# End time: 14:38:49 on Dec 02,2016, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # //  ModelSim PE Student Edition 10.4a Apr  7 2015 
 # //
@@ -33,26 +34,64 @@
 # // THE ModelSim PE Student Edition IS NOT A SUPPORTED PRODUCT.
 # // FOR HIGHER EDUCATION PURPOSES ONLY
 # //
-# vsim -gui -do "do {ALU.fdo}" 
-# Start time: 14:12:08 on Dec 02,2016
+# vsim -gui -do "do {CPU.tdo}" 
+# Start time: 14:38:50 on Dec 02,2016
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
-# Loading ieee.std_logic_arith(body)
-# Loading ieee.std_logic_unsigned(body)
-# Loading ieee.numeric_std(body)
-# Loading work.alu(behavioral)
+# Loading vital2000.vital_timing(body)
+# Loading simprim.vcomponents
+# Loading vital2000.vital_primitives(body)
+# Loading simprim.vpackage(body)
+# Loading work.cpu(structure)
+# SDF 10.4a Compiler 2015.03 Apr  7 2015
+# 
+# Loading simprim.x_lut6(x_lut6_v)
+# Loading simprim.x_lut5(x_lut5_v)
+# Loading simprim.x_carry4(x_carry4_v)
+# Loading simprim.x_buf(x_buf_v)
+# Loading simprim.x_one(x_one_v)
+# Loading simprim.x_zero(x_zero_v)
+# Loading simprim.x_ibuf_intermdisable_tpwrgt(x_ibuf_intermdisable_tpwrgt_v)
+# Loading simprim.x_obuf(x_obuf_v)
+# Loading simprim.x_ckbuf(x_ckbuf_v)
+# Loading simprim.x_ff(x_ff_v)
+# Loading simprim.x_mux2(x_mux2_v)
+# Loading simprim.x_roc(x_roc_v)
+# Loading simprim.x_toc(x_toc_v)
+# Loading instances from netgen/par/CPU_timesim.sdf
+# Loading timing data from netgen/par/CPU_timesim.sdf
+# ** Warning: Design size of 116848 statements or 988 leaf instances exceeds ModelSim PE Student Edition recommended capacity.
+# Expect performance to be quite adversely affected.
+# ** Note: (vsim-3587) SDF Backannotation Successfully Completed.
+#    Time: 0 ps  Iteration: 0  Instance: /cpu File: netgen/par/CPU_timesim.vhd
 # ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
 # 
 #           File in use by: wangx  Hostname: GODWIN-THINKPAD  ProcessID: 4228
 # 
-#           Attempting to use alternate WLF file "./wlftrz9yfv".
+#           Attempting to use alternate WLF file "./wlftaq9tb7".
 # ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
 # 
-#           Using alternate file: ./wlftrz9yfv
+#           Using alternate file: ./wlftaq9tb7
 # 
 # .main_pane.wave.interior.cs.body.pw.wf
 # .main_pane.structure.interior.cs.body.struct
 # .main_pane.objects.interior.cs.body.tree
-# End time: 14:15:20 on Dec 02,2016, Elapsed time: 0:03:12
-# Errors: 0, Warnings: 2
+force -freeze sim:/cpu/clk 1 0, 0 {50000 ps} -r 100ns
+force -freeze sim:/cpu/op1 2#10 0
+force -freeze sim:/cpu/op2 2#2 0
+# Invalid binary digit: 2.
+# ** Error: (vsim-4011) Invalid force value: 2#2 0.
+# 
+force -freeze sim:/cpu/opcode 2#000101 0
+force -freeze sim:/cpu/op2 10#2 0
+run 1000ns
+force -freeze sim:/cpu/clr 0 0
+run 1000ns
+radix bin
+# binary
+force -freeze sim:/cpu/opcode 000110 0
+force -freeze sim:/cpu/op2 00000000000000000000000000000001 0
+run 1000ns
+# End time: 14:41:34 on Dec 02,2016, Elapsed time: 0:02:44
+# Errors: 1, Warnings: 3

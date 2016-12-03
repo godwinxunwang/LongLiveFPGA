@@ -9,7 +9,7 @@ z2
 cModel Technology
 Z0 dC:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject
 Ealu
-Z1 w1480705847
+Z1 w1480706632
 Z2 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z3 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
 Z4 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
@@ -24,9 +24,9 @@ Vg8n8UE:8Sbiim9NCei<^L0
 !s100 ;2e]5e5;UKV6NYUS:[>Ee2
 Z9 OP;C;10.4a;61
 31
-Z10 !s110 1480705928
+Z10 !s110 1480706749
 !i10b 1
-Z11 !s108 1480705928.000000
+Z11 !s108 1480706749.000000
 Z12 !s90 -reportprogress|300|-explicit|-93|ALU.vhd|
 Z13 !s107 ALU.vhd|
 !i113 1
@@ -38,11 +38,11 @@ R3
 R4
 R5
 R6
-Z16 DEx4 work 3 alu 0 22 g8n8UE:8Sbiim9NCei<^L0
+DEx4 work 3 alu 0 22 g8n8UE:8Sbiim9NCei<^L0
 l20
 L18
-Z17 VaFNzf;1SEmi?^CA?MGH]b1
-Z18 !s100 K4KW@SKn5h`SWoa1P9dW61
+VaFNzf;1SEmi?^CA?MGH]b1
+!s100 K4KW@SKn5h`SWoa1P9dW61
 R9
 31
 R10
@@ -50,6 +50,53 @@ R10
 R11
 R12
 R13
+!i113 1
+R14
+R15
+Ecpu
+Z16 w1480707313
+Z17 DPx9 vital2000 16 vital_primitives 0 22 `a]zGa`>UD04SCd]1aJR_3
+Z18 DPx7 simprim 8 vpackage 0 22 ieF@fNI[UF]T6R2Q0ZG:61
+Z19 DPx9 vital2000 12 vital_timing 0 22 J>EBealN09f8GzldA[z2>3
+Z20 DPx7 simprim 11 vcomponents 0 22 DgFaojEEYblW>If<>z2eN2
+R5
+R6
+R0
+Z21 8netgen/par/CPU_timesim.vhd
+Z22 Fnetgen/par/CPU_timesim.vhd
+l0
+L41
+VTTiXWjWKMXB@V5ai8N`_[3
+!s100 :`dXm3:]VmZ:R;FDeZTRC3
+R9
+31
+Z23 !s110 1480707529
+!i10b 1
+Z24 !s108 1480707529.000000
+Z25 !s90 -reportprogress|300|-explicit|-93|netgen/par/CPU_timesim.vhd|
+Z26 !s107 netgen/par/CPU_timesim.vhd|
+!i113 1
+R14
+R15
+Astructure
+R17
+R18
+R19
+R20
+R5
+R6
+DEx4 work 3 cpu 0 22 TTiXWjWKMXB@V5ai8N`_[3
+l1143
+L53
+VNiac5KSe017kOWJ;2JVmL2
+!s100 SZYQ7D<5n>^Cnmd:8@?VD2
+R9
+31
+R23
+!i10b 1
+R24
+R25
+R26
 !i113 1
 R14
 R15
