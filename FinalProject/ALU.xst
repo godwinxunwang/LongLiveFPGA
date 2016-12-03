@@ -1,9 +1,6 @@
-set -tmpdir "xst/projnav.tmp"
-set -xsthdpdir "xst"
-run
--ifn ALU.prj
--ofn ALU
--ofmt NGC
+set -tmpdir "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/xst/projnav.tmp"
+set -xsthdpdir "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/xst"
+run -compileonly yes
 -p xc7a100t-1-csg324
 -top ALU
 -opt_mode Speed
@@ -50,3 +47,4 @@ run
 -iob Auto
 -equivalent_register_removal YES
 -slice_utilization_ratio_maxmargin 5
+-ifn ALU.prj

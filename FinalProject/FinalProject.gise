@@ -67,6 +67,10 @@
     <transform xil_pn:end_ts="1480613896" xil_pn:in_ck="-5850717762315414838" xil_pn:name="TRANEXT_xstsynthesize_virtex6" xil_pn:prop_ck="-5620362763394279085" xil_pn:start_ts="1480613863">
       <status xil_pn:value="FailedRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="RegisterFile.lso"/>
       <outfile xil_pn:name="RegisterFile.prj"/>
       <outfile xil_pn:name="RegisterFile.syr"/>

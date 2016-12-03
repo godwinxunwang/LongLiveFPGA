@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL; 
-use IEEE.NUMERIC_STD.ALL;
+use ieee.numeric_std.all;
 
 entity ALU is
 	port(
@@ -20,21 +20,23 @@ architecture Behavioral of ALU is
 begin
 	process(clk, clr, opcode, funct) begin
 		if(clr='1') then 
-			alu_out <= x"0000"; 
+			alu_out <= x"00000000"; 
 		elsif(clk'event and clk='1') then 
 			-- R-type instruction -- 
 			if(opcode = "000000") then 
 				case funct is 
-					when x"10" => 
+					when "010000" => 
 						alu_out <= op1 + op2; -- signed??? overflow??? raise the exception?? How? 
-					when x"11" => 
+					when "010001" => 
 						alu_out <= op1 - op2; -- signed??? overflow??? raise the exception?? How? 
-					when x"12" => 
+					when "010010" => 
 						alu_out <= op1 AND op2; -- not sure ?? 
-					when x"13" => 
+					when "010011" => 
 						alu_out <= op1 OR op2; -- not sure ??
-					when x"14" => 
+					when "010100" => 
 						alu_out <= NOT(op1 OR op2); 
+					when others => 
+					
 				end case; 
 			-- J-type instruction -- 
 			elsif(opcode = "001100") then -- PC = {(PC + 4)[31:28], address, 00}
@@ -45,40 +47,39 @@ begin
 			-- I-type instruction -- 
 			else
 				case opcode is 
-					when 1 => -- addi
+					when "000001" => -- addi
 						alu_out <= op1 + op2;
-					when 2 => -- subi
+					when "000010" => -- subi
 						alu_out <= op1 - op2; 
-					when 3 => -- andi
+					when "000011" => -- andi
 						alu_out <= op1 AND op2; 
-					when 4 => -- ori
+					when "000100" => -- ori
 						alu_out <= op1 OR op2; 
-					when 5 => -- shl
-						alu_out <= std_logic_vector(unsigned(op1) sll unsigned(op2)); 
-					when 6 => -- shr
-						alu_out <= std_logic_vector(unsigned(op1) srl unsigned(op2)); 
-					when 7 => -- lw
-
-					when 8 => -- sw
-					
-					when 9 => -- blt
+					when "000101" => -- shl
+						alu_out <= x"00000000"; 
+						alu_out(31 downto to_integer(unsigned(op2))) <= op1((31- to_integer(unsigned(op2))) downto 0); 
+					when "000110" => -- shr
+						alu_out <= x"00000000";
+						alu_out((31-to_integer(unsigned(op2))) downto 0) <= op1(31 downto to_integer(unsigned(op2)));
+					when "001001" => -- blt
 						if(op1 < op2) then 
-							alu_out <= x"0001"; 
+							alu_out <= x"00000001"; 
 						else
-							alu_out <= x"0000"; 
+							alu_out <= x"00000000"; 
 						end if; 
-					when 10 => -- beq
+					when "001010" => -- beq
 						if(op1 = op2) then
-							alu_out <= x"0001"; 
+							alu_out <= x"00000001"; 
 						else
-							alu_out <= x"0000"; 
+							alu_out <= x"00000000"; 
 						end if; 
-					when 11 => -- bne
+					when "001011" => -- bne
 						if(op1 = op2) then 
-							alu_out <= x"0000"; 
+							alu_out <= x"00000000"; 
 						else 
-							alu_out <= x"0001"; 
+							alu_out <= x"00000001"; 
 						end if; 
+					when others => 
 				end case; 
 			end if; 
 		end if; 
