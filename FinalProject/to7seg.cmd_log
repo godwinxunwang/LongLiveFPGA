@@ -1,2 +1,0 @@
-xst -intstyle ise -ifn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/to7seg.xst" -ofn "C:/Users/wangx/OneDrive/GitHub/LongLiveFPGA/FinalProject/to7seg.syr" 
-ngdbuild -intstyle ise -dd _ngo -nt timestamp -i -p xc7a100t-csg324-1 to7seg.ngc to7seg.ngd  
