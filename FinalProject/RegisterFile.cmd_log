@@ -1,3 +1,0 @@
-xst -intstyle ise -ifn "Y:/ FPGA Project/LongLiveFPGA/FinalProject/RegisterFile.xst" -ofn "Y:/ FPGA Project/LongLiveFPGA/FinalProject/RegisterFile.syr" 
-xst -intstyle ise -ifn "Y:/ FPGA Project/LongLiveFPGA/FinalProject/RegisterFile.xst" -ofn "Y:/ FPGA Project/LongLiveFPGA/FinalProject/RegisterFile.syr" 
-xst -intstyle ise -ifn "Y:/ FPGA Project/LongLiveFPGA/FinalProject/RegisterFile.xst" -ofn "Y:/ FPGA Project/LongLiveFPGA/FinalProject/RegisterFile.syr" 
