@@ -11,7 +11,7 @@ entity top is
 end top;
 
 architecture Behavioral of top is
-	-- import components -- 
+	-- Components Declaration -- 
 	-- ALU -- 
 	component ALU
 		port(		
