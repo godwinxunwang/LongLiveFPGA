@@ -98,13 +98,12 @@
     <transform xil_pn:end_ts="1480706715" xil_pn:in_ck="-6931494861976965771" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1480706715">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="ALU.vhd"/>
-      <outfile xil_pn:name="CPU.vhd"/>
-      <outfile xil_pn:name="DataMemory.vhd"/>
-      <outfile xil_pn:name="Reg_32.vhd"/>
-      <outfile xil_pn:name="to7seg.vhd"/>
-      <outfile xil_pn:name="to7seg_single.vhd"/>
-      <outfile xil_pn:name="top.vhd"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputChanged"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1480704766" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-3321771038117726843" xil_pn:start_ts="1480704766">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -122,24 +121,24 @@
     <transform xil_pn:end_ts="1480706715" xil_pn:in_ck="-6931494861976965771" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1480706715">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
-      <outfile xil_pn:name="ALU.vhd"/>
-      <outfile xil_pn:name="CPU.vhd"/>
-      <outfile xil_pn:name="DataMemory.vhd"/>
-      <outfile xil_pn:name="Reg_32.vhd"/>
-      <outfile xil_pn:name="to7seg.vhd"/>
-      <outfile xil_pn:name="to7seg_single.vhd"/>
-      <outfile xil_pn:name="top.vhd"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputChanged"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1480706744" xil_pn:in_ck="-6931494861976965771" xil_pn:name="TRAN_MSimulateBehavioralModel" xil_pn:prop_ck="-357383698293900177" xil_pn:start_ts="1480706715">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="NotReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputChanged"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="ALU.fdo"/>
-      <outfile xil_pn:name="vsim.wlf"/>
-      <outfile xil_pn:name="work"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1480707125" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1480707125">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -154,19 +153,21 @@
     <transform xil_pn:end_ts="1480707517" xil_pn:in_ck="8608700595249612893" xil_pn:name="TRAN_copyPost-ParAbstractToPreSimulation" xil_pn:start_ts="1480707517">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
-      <outfile xil_pn:name="netgen/par/CPU_timesim.sdf"/>
-      <outfile xil_pn:name="netgen/par/CPU_timesim.vhd"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1480707523" xil_pn:in_ck="-4282055784802926767" xil_pn:name="TRAN_MSimulatePostPlace&amp;RouteModel" xil_pn:prop_ck="8962571678611471239" xil_pn:start_ts="1480707517">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="NotReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="CPU.tdo"/>
-      <outfile xil_pn:name="vsim.wlf"/>
-      <outfile xil_pn:name="work"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
   </transforms>
 
