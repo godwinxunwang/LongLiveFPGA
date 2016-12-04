@@ -15,11 +15,8 @@ architecture Behavioral of top is
 	-- ALU -- 
 	component ALU
 		port(		
-			clr: in std_logic;
-			clk: in std_logic; 
 			op1: in std_logic_vector(31 downto 0); -- rs
 			op2: in std_logic_vector(31 downto 0); -- rt / imm
-			opcode: in std_logic_vector(5 downto 0); 
 			funct: in std_logic_vector(5 downto 0); 
 			alu_out: out std_logic_vector(31 downto 0)
 			);
@@ -39,24 +36,49 @@ architecture Behavioral of top is
 	-- Register Files -- 
 	component Reg_32
 		port(		
-			--clock and reset signal
 			clk	: 	IN STD_LOGIC;
 			rst	:	IN STD_LOGIC;
-			--5 bit input register
 			rs		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 			rd		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 			rt		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
-			--write enable bit and write data
 			wrtEn	:	IN STD_LOGIC;
 			wrtDa	: 	IN STD_LOGIC_VECTOR(31 DOWNTO 0);
-			--output 32 bit data
 			rd1	:	OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
 			rd2	:	OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
 			);
 	end component; 
 	
+	-- Program Counter -- 
+	component PC
+		port(		
+			 CLOCK: IN  std_logic;
+			 D: IN  std_logic_vector(31 downto 0);
+			 Q: OUT std_logic_vector(31 downto 0)
+			);
+	end component; 
 	
-begin
+	-- Instuction Memory -- 
+	component IMEM 
+		port( 
+			addr: IN std_logic_VECTOR(31 downto 0);
+			Ins: OUT std_logic_VECTOR(31 downto 0)
+			); 
+	end component; 
+	
+	-- Decoder -- 
+	component ControlUnit 
+		port(
+			Ins: IN std_logic_VECTOR(31 downto 0);
+			RegDst: OUT std_logic;			Memwrite: OUT std_logic;			Memread: OUT std_logic;
+			jump:OUT std_logic;
+			ALUop: OUT std_logic_vector(5 downto 0);
+			Branch: OUT std_logic_VECTOR(1 downto 0);
+			PC: OUT std_logic_vector(31 downto 0);
+			Adr: In std_logic_vector(31 downto 0);
+			R_Type: OUT std_logic
+		); 
+	end component; 
+
 	signal alu_out: std_logic_vector(31 downto 0); 
 	signal dataout: std_logic_vector(31 downto 0); 
 	signal inst: std_logic_vector(31 downto 0); -- from IMem
@@ -64,32 +86,37 @@ begin
 	signal to_rd: std_logic_vector(4 downto 0);
 	signal to_wrt_data: std_logic_vector(31 downto 0);
 	signal to_op2: std_logic_vector(31 downto 0); 
-
+	signal to_PC, adder_out, PC_out: std_logic_vector(31 downto 0); 
+	
+	signal wrtEnableRF, wrtEnableDM: std_logic; -- wrtEnable after FF 
+	
 	signal signExtendedImm: std_logic_vector(31 downto 0); 
 	signal from_IsLoad_mux: std_logic_vector(31 downto 0); 
 	signal from_I_Type_left: std_logic_vector(4 downto 0); 
 	
+	signal incPC: std_logic_vector(31 downto 0); 
+	signal branchCMD: std_logic_VECTOR(1 downto 0); 
+	
 	-- MUX's signals -- 
 	signal J_Type: std_logic; 
 	signal I_Type: std_logic; 
+	signal R_Type: std_logic; 
 	signal isLoad: std_logic; 
 	signal isStore: std_logic; 
 	signal isBranch: std_logic; 
-	
+
+begin	
 	-- Component Mapping -- 
 	ALU: ALU port map(
-			clr => clr, 
-			clk => clk, 
 			op1 => rd1, 
 			op2 => rd2, 
-			opcode => inst(31 downto 26), 
 			funct => inst(5 downto 0), 
 			alu_out => alu_out
 			); 
 			
 	DMem: DataMemory port map(
 			clk => clk,
-			wrtEn => -- from Decoder,
+			wrtEn => wrtEnableDM, -- from Decoder, via FF 
 			addr => alu_out,
 			datain => rd2,
 			dataout => dataout -- to write RF -- ¼ÓFF
@@ -101,22 +128,26 @@ begin
 			rs => inst(25 downto 21), 
 			rt => inst(20 downto 16),  
 			rd => to_rd, 
-			wrtEn => , -- from Decoder via FF -- ¼ÓFF
+			wrtEn => wrtEnableRF, -- from Decoder via FF -- ¼ÓFF
 			wrtDa => to_wrt_data , -- from Dmem via FF 
 			rd1 => rd1,
 			rd2 => rd2
 		); 
 	
 	Decoder: ControlUnit port map(
-			clk => clk, 
-			clr => clr, 
 			Ins => inst, 
-			RegDst => I_Type, 
-			MemtoReg: OUT std_logic;			ALUOp: OUT std_logic_VECTOR(5 downto 0);			Memwrite: OUT std_logic;			Memread: OUT std_logic;
-			ALUSrc:OUT std_logic;
-			ALUfuc: OUT std_logic_VECTOR(5 downto 0);
-			jump:OUT std_logic
+			RegDst => I_Type, -- I-Type
+			ALUOp => , -- when R-type, func			Memwrite => isStore, -- isStore			Memread => isLoad, -- isLoad
+			R_Type => R_Type, -- R-Type 
+			jump => J_Type -- J-Type
+			Branch => branchCMD; -- to comparitor
+			PC => to_PC; -- Calculated new PC address 
+			Adr => incPC-- PC + 4
 		); 
+		
+	PC: PC port map(CLOCK => clk, D => to_PC, Q => PC_out); 
+	
+	Imem: IMEM port map(addr => , Ins => );
 	
 	-- MUX's -- 
 	-- MUX before RFs -- 
@@ -165,6 +196,10 @@ begin
 			outWrtEnableFF <= inWrtEnableFF; 
 		end if; 
 	end process;
+	
+	-- Adder for PC -- 
+	adder_out <= PC_out + 4; 
+	
 	
 
 end Behavioral;
