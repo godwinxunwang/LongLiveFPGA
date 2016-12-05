@@ -129,7 +129,7 @@ begin
 			rt => inst(20 downto 16),  
 			rd => to_rd, 
 			wrtEn => wrtEnableRF, -- from Decoder via FF -- ¼ÓFF
-			wrtDa => to_wrt_data , -- from Dmem via FF 
+			wrtDa => to_wrt_data, -- from Dmem via FF 
 			rd1 => rd1,
 			rd2 => rd2
 		); 
@@ -137,17 +137,17 @@ begin
 	Decoder: ControlUnit port map(
 			Ins => inst, 
 			RegDst => I_Type, -- I-Type
-			ALUOp => , -- when R-type, func			Memwrite => isStore, -- isStore			Memread => isLoad, -- isLoad
+			ALUOp => ALUop, -- when R-type, func			Memwrite => isStore, -- isStore			Memread => isLoad, -- isLoad
 			R_Type => R_Type, -- R-Type 
-			jump => J_Type -- J-Type
-			Branch => branchCMD; -- to comparitor
-			PC => to_PC; -- Calculated new PC address 
-			Adr => incPC-- PC + 4
-		); 
+			jump => J_Type, -- J-Type
+			Branch => branchCMD, -- to comparitor
+			PC => to_PC, -- Calculated new PC address 
+			Adr => incPC -- PC + 4
+			);
 		
 	PC: PC port map(CLOCK => clk, D => to_PC, Q => PC_out); 
 	
-	Imem: IMEM port map(addr => , Ins => );
+	Imem: IMEM port map(addr => PC_out, Ins => inst);
 	
 	-- MUX's -- 
 	-- MUX before RFs -- 
@@ -162,8 +162,8 @@ begin
 	
 	-- MUX after Dmem -- 
 	with IsLoad select 
-		from_IsLoad_mux <= alu_out when others, 
-							 <= dataout when '1'; 
+		from_IsLoad_mux <= dataout when '1',
+								 alu_out when others;  
 	
 	-- Sign Extension -- 
 	with inst(15) select
