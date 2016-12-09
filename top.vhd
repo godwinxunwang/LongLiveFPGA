@@ -88,6 +88,16 @@ architecture Behavioral of top is
 		   isBranch: out STD_LOGIC
 		);
 	end component;
+	
+	-- LED Controller --
+	component to7seg
+	   port(
+		   d0, d1, d2, d3, d4, d5, d6, d7: in STD_LOGIC_VECTOR(3 downto 0);
+	      clk: in STD_LOGIC;
+			sec: out STD_LOGIC_VECTOR(7 downto 0);
+			num: out STD_LOGIC_VECTOR(6 downto 0)
+		);
+	end component;
 
 	signal alu_out: std_logic_vector(31 downto 0); 
 	signal ALUop: std_logic_vector(5 downto 0);
@@ -97,7 +107,7 @@ architecture Behavioral of top is
 	signal to_rd: std_logic_vector(4 downto 0);
 	signal to_wrt_data: std_logic_vector(31 downto 0);
 	signal to_op2: std_logic_vector(31 downto 0); 
-	signal to_PC, PC4, PC_out: std_logic_vector(31 downto 0); 
+	signal to_PC, PC1, PC_out: std_logic_vector(31 downto 0); 
 	
 	signal wrtEnableRF, wrtEnableDM: std_logic; -- wrtEnable after FF 
 	signal outWrtEnableFF, inWrtEnableFF: std_logic; --?
@@ -188,7 +198,7 @@ begin
 	process(J_Type, isBranch) begin
 	    if (J_Type = '1') then to_PC <= Jump_PC;
 		 elsif (isBranch = '1') then to_PC <= PC_Branch;
-		 else to_PC <= PC4;
+		 else to_PC <= PC1;
 		 end if;
    end process;
 	
@@ -225,13 +235,13 @@ begin
 	end process;
 	
 	-- Adder for PC -- 
-	PC4 <= PC_out + 4; 
+	PC1 <= PC_out + 1; 
 	
 	-- Adder for Branch --
-	PC_Branch <= PC4 + signExtendedImm;
+	PC_Branch <= PC1 + signExtendedImm;
 	
 	-- jump PC address --
-	Jump_PC <= PC4(31 downto 28)&inst(25 downto 0)&"00";
+	Jump_PC <= PC1(31 downto 26)&inst(25 downto 0);
 	
 	
 
