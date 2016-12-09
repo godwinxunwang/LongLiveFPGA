@@ -78,17 +78,39 @@ architecture Behavioral of top is
 			R_Type: OUT std_logic
 		); 
 	end component; 
+	
+	-- Compare --
+	component Compare
+	   port(
+		   rs: in STD_LOGIC_VECTOR(31 downto 0);
+		   rt: in STD_LOGIC_VECTOR(31 downto 0);
+		   branch: in STD_LOGIC_VECTOR(1 downto 0);
+		   isBranch: out STD_LOGIC
+		);
+	end component;
+	
+	-- LED Controller --
+	component to7seg
+	   port(
+		   d0, d1, d2, d3, d4, d5, d6, d7: in STD_LOGIC_VECTOR(3 downto 0);
+	      clk: in STD_LOGIC;
+			sec: out STD_LOGIC_VECTOR(7 downto 0);
+			num: out STD_LOGIC_VECTOR(6 downto 0)
+		);
+	end component;
 
 	signal alu_out: std_logic_vector(31 downto 0); 
+	signal ALUop: std_logic_vector(5 downto 0);
 	signal dataout: std_logic_vector(31 downto 0); 
 	signal inst: std_logic_vector(31 downto 0); -- from IMem
 	signal rd1, rd2: std_logic_vector(31 downto 0); 
 	signal to_rd: std_logic_vector(4 downto 0);
 	signal to_wrt_data: std_logic_vector(31 downto 0);
 	signal to_op2: std_logic_vector(31 downto 0); 
-	signal to_PC, adder_out, PC_out: std_logic_vector(31 downto 0); 
+	signal to_PC, PC1, PC_out: std_logic_vector(31 downto 0); 
 	
 	signal wrtEnableRF, wrtEnableDM: std_logic; -- wrtEnable after FF 
+	signal outWrtEnableFF, inWrtEnableFF: std_logic; --?
 	
 	signal signExtendedImm: std_logic_vector(31 downto 0); 
 	signal from_IsLoad_mux: std_logic_vector(31 downto 0); 
@@ -107,7 +129,7 @@ architecture Behavioral of top is
 
 begin	
 	-- Component Mapping -- 
-	ALU: ALU port map(
+	ALUIST: ALU port map(
 			op1 => rd1, 
 			op2 => rd2, 
 			funct => inst(5 downto 0), 
@@ -144,10 +166,17 @@ begin
 			PC => to_PC, -- Calculated new PC address 
 			Adr => incPC -- PC + 4
 			);
+			
+	CompareIST: Compare port map(
+	      rs => rd1,
+		   rt => rd2,
+		   branch => branchCMD,
+		   isBranch => isBranch
+			);
 		
-	PC: PC port map(CLOCK => clk, D => to_PC, Q => PC_out); 
+	PC_FF: PC port map(CLOCK => clk, D => to_PC, Q => PC_out); 
 	
-	Imem: IMEM port map(addr => PC_out, Ins => inst);
+	Instruction_mem: IMEM port map(addr => PC_out, Ins => inst);
 	
 	-- MUX's -- 
 	-- MUX before RFs -- 
@@ -164,6 +193,14 @@ begin
 	with IsLoad select 
 		from_IsLoad_mux <= dataout when '1',
 								 alu_out when others;  
+								 
+	-- MUX to PC --
+	process(J_Type, isBranch) begin
+	    if (J_Type = '1') then to_PC <= Jump_PC;
+		 elsif (isBranch = '1') then to_PC <= PC_Branch;
+		 else to_PC <= PC1;
+		 end if;
+   end process;
 	
 	-- Sign Extension -- 
 	with inst(15) select
@@ -191,14 +228,20 @@ begin
 	-- "Flip-flop" before wrt enable -- 
 	process(clk, clr) begin
 		if(clr='1') then 
-			outWrtEnableFF <= '0'; 
+			outWrtEnableFF <= '0'; --?
 		elsif(clk'event and clk='1') then 
-			outWrtEnableFF <= inWrtEnableFF; 
+			outWrtEnableFF <= inWrtEnableFF; --?
 		end if; 
 	end process;
 	
 	-- Adder for PC -- 
-	adder_out <= PC_out + 4; 
+	PC1 <= PC_out + 1; 
+	
+	-- Adder for Branch --
+	PC_Branch <= PC1 + signExtendedImm;
+	
+	-- jump PC address --
+	Jump_PC <= PC1(31 downto 26)&inst(25 downto 0);
 	
 	
 
