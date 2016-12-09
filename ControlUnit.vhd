@@ -10,8 +10,6 @@ port (
 		jump:OUT std_logic;
 		ALUop: OUT std_logic_vector(5 downto 0);
 		Branch: OUT std_logic_VECTOR(1 downto 0);
-		PC: OUT std_logic_vector(31 downto 0);
-		Adr: In std_logic_vector(31 downto 0);
 		R_Type: OUT std_logic
 );
 end ControlUnit;
@@ -116,7 +114,5 @@ with opcode_1 select
 R_Type<='1' when "0000",
 '0' when others;
 
-Adr_reg<= Adr;
-PC<= Adr_reg(31 downto 28)&Imm&"00";
 
 end Behavioral;
