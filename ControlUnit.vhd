@@ -6,7 +6,9 @@ use ieee.numeric_std.all;
 entity ControlUnit is
 port (
 		Ins: IN std_logic_VECTOR(31 downto 0);
-		RegDst: OUT std_logic;		Memwrite: OUT std_logic;		Memread: OUT std_logic;
+		RegDst: OUT std_logic;
+		Memwrite: OUT std_logic;
+		Memread: OUT std_logic;
 		jump:OUT std_logic;
 		ALUop: OUT std_logic_vector(5 downto 0);
 		Branch: OUT std_logic_VECTOR(1 downto 0);
@@ -18,7 +20,6 @@ architecture Behavioral of ControlUnit is
 
 SIGNAL  opcode_1 : std_logic_VECTOR(3 downto 0);
 SIGNAL  ALUfuc : std_logic_VECTOR(5 downto 0);
-SIGNAL Adr_reg: std_logic_VECTOR(31 downto 0);
 
 begin 
 
