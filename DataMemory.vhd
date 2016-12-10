@@ -1,6 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.Numeric_Std.all;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity DataMemory is
   port (
@@ -8,7 +9,9 @@ entity DataMemory is
     wrtEn   : IN  std_logic;
     addr 	: IN  std_logic_vector(31 downto 0);
     datain  : IN  std_logic_vector(31 downto 0);
-    dataout : OUT std_logic_vector(31 downto 0)
+	 i_cnt   : IN  std_logic_vector(9 downto 0); -- for display
+    dataout : OUT std_logic_vector(31 downto 0);
+	 display_out: OUT std_logic_vector(31 downto 0) -- for display
   );
 end entity DataMemory;
 
@@ -32,5 +35,6 @@ begin
   end process;
 
   dataout <= ram(to_integer(unsigned(read_address)));
+  display_out <= ram(conv_integer(i_cnt));
 
 end architecture RTL;
