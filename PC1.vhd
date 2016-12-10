@@ -12,8 +12,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity PC is
 PORT( 
-			D,CLOCK: in std_logic;
-			Q: out std_logic
+			CLOCK: in std_logic;
+			D: in std_logic_vector(31 downto 0);
+			Q: out std_logic_vector(31 downto 0)
 	  );
 end PC;
 
