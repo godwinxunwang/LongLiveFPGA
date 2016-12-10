@@ -13,6 +13,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity PC is
 PORT( 
 			CLOCK: in std_logic;
+			CLEAR: in std_logic;
 			D: in std_logic_vector(31 downto 0);
 			Q: out std_logic_vector(31 downto 0)
 	  );
@@ -21,9 +22,10 @@ end PC;
 architecture Behavioral of PC is
 
 begin
-	process(CLOCK)
+	process(CLOCK, CLEAR)
 		begin
-			if(CLOCK='1' and CLOCK'EVENT) then Q <= D;
+		   if (CLEAR = '1') then D <= (OTHERS => '0');
+			elsif(CLOCK='1' and CLOCK'EVENT) then Q <= D;
 		end if;
 	end process;
 	
