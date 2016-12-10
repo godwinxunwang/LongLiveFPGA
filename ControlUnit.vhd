@@ -19,13 +19,11 @@ architecture Behavioral of ControlUnit is
 SIGNAL  opcode_1 : std_logic_VECTOR(3 downto 0);
 SIGNAL  ALUfuc : std_logic_VECTOR(5 downto 0);
 SIGNAL Adr_reg: std_logic_VECTOR(31 downto 0);
-SIGNAL Imm: std_logic_VECTOR(25 downto 0);
 
 begin 
 
 opcode_1(3 downto 0) <= Ins(29 downto 26);
 ALUfuc<=Ins(5 downto 0);
-Imm<= Adr(25 downto 0);
 
 with opcode_1 select
 RegDst <= '0' when "0000",
