@@ -30,8 +30,8 @@ entity to7seg is
 port(
      d0, d1, d2, d3, d4, d5, d6, d7: in STD_LOGIC_VECTOR(3 downto 0);
 	  clk: in STD_LOGIC;
-	  sec: out STD_LOGIC_VECTOR(7 downto 0);
-	  num: out STD_LOGIC_VECTOR(6 downto 0));
+	  a: out STD_LOGIC_VECTOR(7 downto 0);
+	  c: out STD_LOGIC_VECTOR(6 downto 0));
 end to7seg;
 
 architecture Behavioral of to7seg is
@@ -61,7 +61,7 @@ begin
   end process;
 
       with cnt(12 downto 10) select
-	     sec <= "11111110" when "000",
+	     a <= "11111110" when "000",
 		       "11111101" when "001",
 		       "11111011" when "010",
 		       "11110111" when "011",
@@ -72,7 +72,7 @@ begin
 		       "11111111" when others;
     
 	   with cnt(12 downto 10) select
-	     num <= q0 when "000",
+	     c <= q0 when "000",
 		       q1 when "001",
 		       q2 when "010",
 		       q3 when "011",
