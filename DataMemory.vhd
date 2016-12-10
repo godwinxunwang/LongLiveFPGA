@@ -1,17 +1,15 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.Numeric_Std.all;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity DataMemory is
   port (
     clk  	: IN  std_logic;
+	 rst     : IN  std_logic;
     wrtEn   : IN  std_logic;
     addr 	: IN  std_logic_vector(31 downto 0);
     datain  : IN  std_logic_vector(31 downto 0);
-	 i_cnt   : IN  std_logic_vector(9 downto 0); -- for display
-    dataout : OUT std_logic_vector(31 downto 0);
-	 display_out: OUT std_logic_vector(31 downto 0) -- for display
+    dataout : OUT std_logic_vector(31 downto 0)
   );
 end entity DataMemory;
 
@@ -23,10 +21,14 @@ architecture RTL of DataMemory is
 
 begin
 
-  process(clk) is
+  process(clk,rst) is
 
   begin
-    if rising_edge(clk) then
+    if rst = '1' then --reset
+		for i in 0 to 1023 loop
+			ram(i) <= (others => '0');
+		end loop;
+    elsif rising_edge(clk) then
       if wrtEn = '1' then
         ram(to_integer(unsigned(addr))) <= datain;
       end if;
@@ -35,6 +37,5 @@ begin
   end process;
 
   dataout <= ram(to_integer(unsigned(read_address)));
-  display_out <= ram(conv_integer(i_cnt));
 
 end architecture RTL;

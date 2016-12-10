@@ -7,10 +7,7 @@ entity top is
 	port(
 		clr: in std_logic; 
 		clk: in std_logic;
-		sw: in std_logic_vector(15 downto 0);
-		anode: out std_logic_vector(7 downto 0);
-		cathod: out std_logic_vector(6 downto 0);
-		led: out std_logic_vector(15 downto 0)
+		instruction: out std_logic_vector(31 downto 0)
 	); 
 end top;
 
@@ -30,12 +27,11 @@ architecture Behavioral of top is
 	component DataMemory
 		port(		
 			 clk  	: IN  std_logic;
+			 rst     : IN  std_logic;
 			 wrtEn   : IN  std_logic;
 			 addr 	: IN  std_logic_vector(31 downto 0);
 			 datain  : IN  std_logic_vector(31 downto 0);
-			 i_cnt   : IN  std_logic_vector(9 downto 0);
-			 dataout : OUT std_logic_vector(31 downto 0);
-			 display_out: OUT std_logic_vector(31 downto 0)
+			 dataout : OUT std_logic_vector(31 downto 0)
 			);
 	end component; 
 	
@@ -50,10 +46,7 @@ architecture Behavioral of top is
 			wrtEn	:	IN STD_LOGIC;
 			wrtDa	: 	IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 			rd1	:	OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-			rd2	:	OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-			-- for display --
-			i_cnt :  IN STD_LOGIC_VECTOR(4 DOWNTO 0);
-			display_out: OUT STD_LOGIC_VECTOR(31 downto 0)
+			rd2	:	OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
 			);
 	end component; 
 	
@@ -84,8 +77,7 @@ architecture Behavioral of top is
 			ALUop: OUT std_logic_vector(5 downto 0);
 			Branch: OUT std_logic_VECTOR(1 downto 0);
 			R_Type: OUT std_logic;
-			RegWrite: OUT std_logic;
-			Halt: OUT std_logic
+			RegWrite: OUT std_logic
 		); 
 	end component; 
 	
@@ -104,10 +96,13 @@ architecture Behavioral of top is
 	   port(
 		   d0, d1, d2, d3, d4, d5, d6, d7: in STD_LOGIC_VECTOR(3 downto 0);
 	      clk: in STD_LOGIC;
-			a: out STD_LOGIC_VECTOR(7 downto 0);
-			c: out STD_LOGIC_VECTOR(6 downto 0)
+			sec: out STD_LOGIC_VECTOR(7 downto 0);
+			num: out STD_LOGIC_VECTOR(6 downto 0)
 		);
 	end component;
+<<<<<<< HEAD
+
+=======
    
 	--type state_type is (ST_INI, ST_DONE);
 	--signal state: state_type:= ST_INI;
@@ -118,6 +113,7 @@ architecture Behavioral of top is
 	signal led_7: std_logic_vector(31 downto 0);
 	--signal RC5_done: std_logic;
 	
+>>>>>>> origin/master
 	signal alu_out: std_logic_vector(31 downto 0); 
 	signal ALUop: std_logic_vector(5 downto 0);
 	signal dataout: std_logic_vector(31 downto 0); 
@@ -145,9 +141,11 @@ architecture Behavioral of top is
 	signal isLoad: std_logic; 
 	signal isStore: std_logic; 
 	signal isBranch: std_logic; 
-	signal isHalt: std_logic;
 
 begin	
+<<<<<<< HEAD
+   instruction <= to_PC; -- for test
+=======
    --instruction <= to_PC; -- for test
 	
 	-- HALT instruction --
@@ -175,6 +173,7 @@ begin
 	display_counter <= sw(10 downto 1);
 	led <= sw;
 	
+>>>>>>> origin/master
 	-- Component Mapping -- 
 	ALUIST: ALU port map(
 			op1 => rd1, 
@@ -185,12 +184,11 @@ begin
 			
 	DMem: DataMemory port map(
 			clk => clk,
+			rst => clr,
 			wrtEn => isStore, -- from Decoder, via FF 
 			addr => alu_out,
 			datain => rd2,
-			i_cnt => display_counter, -- for display
-			dataout => dataout, -- to write RF -- ¼ÓFF
-			display_out => data_dm -- for display
+			dataout => dataout -- to write RF -- ¼ÓFF
 			); 
 			
 	RF: Reg_32 port map(
@@ -202,10 +200,7 @@ begin
 			wrtEn => out_wrtEnableRF, -- from Decoder via FF -- ¼ÓFF
 			wrtDa => to_rd_data, -- from Dmem via FF 
 			rd1 => rd1,
-			rd2 => rd2,
-			-- for display --
-			i_cnt => display_counter(4 downto 0),
-			display_out => data_rf
+			rd2 => rd2
 		); 
 	
 	Decoder: ControlUnit port map(
@@ -215,8 +210,7 @@ begin
 			R_Type => R_Type, -- R-Type 
 			jump => J_Type, -- J-Type
 			Branch => branchCMD, -- to comparitor
-			RegWrite => in_wrtEnableRF,
-			Halt => isHalt
+			RegWrite => in_wrtEnableRF
 			);
 			
 	CompareIST: Compare port map(
@@ -229,20 +223,6 @@ begin
 	PC_FF: PC port map(CLOCK => clk,CLEAR => clr, D => to_PC, Q => PC_out); 
 	
 	Instruction_mem: IMEM port map(addr => PC_out, Ins => inst);
-	
-	LEDController: to7seg port map(
-	      d0 => led_7(3 downto 0),
-         d1 => led_7(7 downto 4),
-         d2 => led_7(11 downto 8),
-			d3 => led_7(15 downto 12),
-			d4 => led_7(19 downto 16),
-			d5 => led_7(23 downto 20),
-			d6 => led_7(27 downto 24),
-			d7 => led_7(31 downto 28),
-	      clk => clk,
-			a => anode,
-			c => cathod
-			);
 	
 	-- MUX's -- 
 	-- MUX before RFs -- 
@@ -301,9 +281,7 @@ begin
 	end process;
 	
 	-- Adder for PC -- 
-	with isHalt select
-	   PC1 <= PC_out when '1',
-             PC_out + 1 when OTHERS;	
+	PC1 <= PC_out + 1; 
 	
 	-- Adder for Branch --
 	PC_Branch <= PC1 + signExtendedImm;
