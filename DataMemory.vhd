@@ -14,7 +14,7 @@ end entity DataMemory;
 
 architecture RTL of DataMemory is
 
-   type ram_type is array (31 downto 0) of std_logic_vector(31 downto 0);
+   type ram_type is array (1023 downto 0) of std_logic_vector(31 downto 0);
    signal ram : ram_type;
    signal read_address : std_logic_vector(31 downto 0);
 
