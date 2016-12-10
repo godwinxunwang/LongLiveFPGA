@@ -116,7 +116,7 @@ architecture Behavioral of top is
 	signal data_rf: std_logic_vector(31 downto 0);
 	signal data_dm: std_logic_vector(31 downto 0);
 	signal led_7: std_logic_vector(31 downto 0);
-	signal RC5_done: std_logic;
+	--signal RC5_done: std_logic;
 	
 	signal alu_out: std_logic_vector(31 downto 0); 
 	signal ALUop: std_logic_vector(5 downto 0);
@@ -169,7 +169,8 @@ begin
 	-- Display --
    with sw(0) select
 	  led_7 <= data_rf when '0',
-	           data_dm when '1';
+	           data_dm when '1',
+				  (OTHERS => '0') when OTHERS;
 	  
 	display_counter <= sw(10 downto 1);
 	led <= sw;
@@ -177,8 +178,8 @@ begin
 	-- Component Mapping -- 
 	ALUIST: ALU port map(
 			op1 => rd1, 
-			op2 => rd2, 
-			funct => inst(5 downto 0), 
+			op2 => to_op2, 
+			funct => ALUop, 
 			alu_out => alu_out
 			); 
 			
@@ -250,9 +251,9 @@ begin
 					           inst(20 downto 16) when others; 
 	
 	-- MUX between RFs and ALU -- 
-	--with I_Type select 
-		--to_op2 <= signExtendedImm when '1', 
-					--inst(20 downto 16) when others; 
+	with I_Type select 
+		to_op2 <= signExtendedImm when '1', 
+					 rd2 when others; 
 	
 	-- MUX after Dmem -- 
 	with IsLoad select 

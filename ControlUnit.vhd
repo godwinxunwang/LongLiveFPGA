@@ -23,7 +23,7 @@ SIGNAL ALUfuc : std_logic_VECTOR(5 downto 0);
 
 begin 
 
-opcode_1(3 downto 0) <= Ins(29 downto 26);
+opcode_1 <= Ins(29 downto 26);
 ALUfuc<=Ins(5 downto 0);
 
 with opcode_1 select
