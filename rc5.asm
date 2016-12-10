@@ -22,16 +22,16 @@ forEn:
 	nor $19, $8, $9 
 	nor $20, $18, $19 
 	
-	# $21 <= (A xor B) << B 
+	# $20 <= (A xor B) << B 
 	add $4, $0, $9  # copy B's value to $4
-shiftB: 	
+shiftLeftByB: 	
 	subi $4, $4, 1 
-	shl $21, $19, 1
-	bne $4, $0, shiftB
+	shl $20, $20, 1
+	bne $4, $0, shiftLeftByB
 	
 	lw $22, 0($2)  # $22 <= Skey[2*i] 
 	
-	add $8, $21, $22 
+	add $8, $20, $22  # A <= (A xor B) << B + Skey[2*i] 
 	
 	# B XOR A => $20 
 	nor $16, $8, $8 
@@ -40,14 +40,20 @@ shiftB:
 	nor $19, $8, $9 
 	nor $20, $18, $19 
 	
-	shl $21, $19, $8	# $21 <= (B xor A) << A
+	
+	# $19 <= (B xor A) << A
+	add $3, $0, $3  # copy A's value to $3 
+shiftLeftByA: 
+	subi $3, $3, 1
+	shl $19, $19, 1	
+	bne $3, $0, shiftLeftByA
 	
 	lw $22, 1($2)  # $22 <= Skey[2*i + 1] 
 	
-	add $9, $21, $22 
+	add $9, $19, $22  # B <= ((B xor A) <<< A) + S[2×i + 1]
 	
 	subi $31, $1, 12
-	bne $0, $31, forEn: 
+	bne $0, $31, forEn
 	
 	halt 
 	
@@ -68,31 +74,36 @@ forDe:
 	
 	sub $23, $9, $22  # B-Skey[2*i+1]
 	
-	# B-Skey[2*i+1] >> A 
-	add $3, $0, $8
-shiftA: 
+	# $23 <= B-Skey[2*i+1] >> A 
+	add $3, $0, $8  # copy A's value to $3 
+shiftRightByA: 
 	subi $3, $3, 1
-	shr $24, $23, 1
-	bne $3, $0, shiftA
+	shr $23, $23, 1
+	bne $3, $0, shiftRightByA
 	
 	# (( B-Skey[2*i+1] >> A ) xor A) => B 
 	nor $16, $8, $8 
-	nor $17, $24, $24
+	nor $17, $23, $23
 	nor $18, $16, $17
-	nor $19, $8, $24 
+	nor $19, $8, $23 
 	nor $9, $18, $19 
 	
 	lw $22, 0($2)  # $22 <= Skey[2*i] 
 	
 	sub $23, $8, $22  # A-Skey[2*i]
 	
-	shr $24, $23, $9  # A-Skey[2*i] >> B 
-	
-	# ($24 xor B)  => A
+	# A-Skey[2*i] >> B 
+	add $4, $0, $9  # copy B's value to $4
+shiftRightByB: 
+	subi $4, $4, 1
+	shr $23, $23, 1 
+	bne $4, $0, shiftRightByB
+
+	# ($23 xor B)  => A
 	nor $16, $9, $9 
-	nor $17, $24, $24
+	nor $17, $23, $23
 	nor $18, $16, $17
-	nor $19, $9, $24 
+	nor $19, $9, $23 
 	nor $8, $18, $19 	
 
 	subi $1, $1, 1 
