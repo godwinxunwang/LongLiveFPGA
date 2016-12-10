@@ -24,7 +24,7 @@ architecture Behavioral of PC is
 begin
 	process(CLOCK, CLEAR)
 		begin
-		   if (CLEAR = '1') then D <= (OTHERS => '0');
+		   if (CLEAR = '1') then D <= (OTHERS => '0'); 
 			elsif(CLOCK='1' and CLOCK'EVENT) then Q <= D;
 		end if;
 	end process;

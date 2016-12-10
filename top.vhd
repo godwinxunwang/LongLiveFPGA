@@ -53,6 +53,7 @@ architecture Behavioral of top is
 	component PC
 		port(		
 			 CLOCK: IN  std_logic;
+			 CLEAR: IN std_logic;
 			 D: IN  std_logic_vector(31 downto 0);
 			 Q: OUT std_logic_vector(31 downto 0)
 			);
@@ -174,7 +175,7 @@ begin
 		   isBranch => isBranch
 			);
 		
-	PC_FF: PC port map(CLOCK => clk, D => to_PC, Q => PC_out); 
+	PC_FF: PC port map(CLOCK => clk, CLEAR => clr, D => to_PC, Q => PC_out); 
 	
 	Instruction_mem: IMEM port map(addr => PC_out, Ins => inst);
 	
