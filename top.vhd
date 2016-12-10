@@ -74,7 +74,8 @@ architecture Behavioral of top is
 			jump:OUT std_logic;
 			ALUop: OUT std_logic_vector(5 downto 0);
 			Branch: OUT std_logic_VECTOR(1 downto 0);
-			R_Type: OUT std_logic
+			R_Type: OUT std_logic;
+			RegWrite: OUT std_logic
 		); 
 	end component; 
 	
@@ -162,7 +163,8 @@ begin
 			ALUOp => ALUop, -- when R-type, func			Memwrite => isStore, -- isStore			Memread => isLoad, -- isLoad
 			R_Type => R_Type, -- R-Type 
 			jump => J_Type, -- J-Type
-			Branch => branchCMD -- to comparitor
+			Branch => branchCMD, -- to comparitor
+			RegWrite => in_wrtEnableRF
 			);
 			
 	CompareIST: Compare port map(
