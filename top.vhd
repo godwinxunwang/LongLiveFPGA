@@ -6,7 +6,8 @@ use ieee.numeric_std.all;
 entity top is
 	port(
 		clr: in std_logic; 
-		clk: in std_logic
+		clk: in std_logic;
+		instruction: out std_logic_vector(31 downto 0)
 	); 
 end top;
 
@@ -73,8 +74,6 @@ architecture Behavioral of top is
 			jump:OUT std_logic;
 			ALUop: OUT std_logic_vector(5 downto 0);
 			Branch: OUT std_logic_VECTOR(1 downto 0);
-			PC: OUT std_logic_vector(31 downto 0);
-			Adr: In std_logic_vector(31 downto 0);
 			R_Type: OUT std_logic
 		); 
 	end component; 
@@ -105,12 +104,12 @@ architecture Behavioral of top is
 	signal inst: std_logic_vector(31 downto 0); -- from IMem
 	signal rd1, rd2: std_logic_vector(31 downto 0); 
 	signal to_rd: std_logic_vector(4 downto 0);
-	signal to_wrt_data: std_logic_vector(31 downto 0);
+	signal to_rd_data: std_logic_vector(31 downto 0);
 	signal to_op2: std_logic_vector(31 downto 0); 
 	signal to_PC, PC1, PC_out: std_logic_vector(31 downto 0); 
+	signal Jump_PC, PC_Branch: std_logic_vector(31 downto 0);
 	
-	signal wrtEnableRF, wrtEnableDM: std_logic; -- wrtEnable after FF 
-	signal outWrtEnableFF, inWrtEnableFF: std_logic; --?
+	signal in_wrtEnableRF, out_wrtEnableRF: std_logic; -- wrtEnable of RF 
 	
 	signal signExtendedImm: std_logic_vector(31 downto 0); 
 	signal from_IsLoad_mux: std_logic_vector(31 downto 0); 
@@ -128,6 +127,7 @@ architecture Behavioral of top is
 	signal isBranch: std_logic; 
 
 begin	
+   instruction <= to_PC; -- for test
 	-- Component Mapping -- 
 	ALUIST: ALU port map(
 			op1 => rd1, 
@@ -138,7 +138,7 @@ begin
 			
 	DMem: DataMemory port map(
 			clk => clk,
-			wrtEn => wrtEnableDM, -- from Decoder, via FF 
+			wrtEn => isStore, -- from Decoder, via FF 
 			addr => alu_out,
 			datain => rd2,
 			dataout => dataout -- to write RF -- ¼ÓFF
@@ -150,8 +150,8 @@ begin
 			rs => inst(25 downto 21), 
 			rt => inst(20 downto 16),  
 			rd => to_rd, 
-			wrtEn => wrtEnableRF, -- from Decoder via FF -- ¼ÓFF
-			wrtDa => to_wrt_data, -- from Dmem via FF 
+			wrtEn => out_wrtEnableRF, -- from Decoder via FF -- ¼ÓFF
+			wrtDa => to_rd_data, -- from Dmem via FF 
 			rd1 => rd1,
 			rd2 => rd2
 		); 
@@ -162,9 +162,7 @@ begin
 			ALUOp => ALUop, -- when R-type, func			Memwrite => isStore, -- isStore			Memread => isLoad, -- isLoad
 			R_Type => R_Type, -- R-Type 
 			jump => J_Type, -- J-Type
-			Branch => branchCMD, -- to comparitor
-			PC => to_PC, -- Calculated new PC address 
-			Adr => incPC -- PC + 4
+			Branch => branchCMD -- to comparitor
 			);
 			
 	CompareIST: Compare port map(
@@ -181,8 +179,8 @@ begin
 	-- MUX's -- 
 	-- MUX before RFs -- 
 	with I_Type select 
-		to_rd <= inst(15 downto 11) when '1', 
-					inst(20 downto 16) when others; 
+		from_I_Type_left <= inst(15 downto 11) when '1', 
+					           inst(20 downto 16) when others; 
 	
 	-- MUX between RFs and ALU -- 
 	--with I_Type select 
@@ -195,7 +193,7 @@ begin
 								 alu_out when others;  
 								 
 	-- MUX to PC --
-	process(J_Type, isBranch) begin
+	process(J_Type, isBranch, PC_Branch, PC1, Jump_PC) begin
 	    if (J_Type = '1') then to_PC <= Jump_PC;
 		 elsif (isBranch = '1') then to_PC <= PC_Branch;
 		 else to_PC <= PC1;
@@ -219,18 +217,18 @@ begin
 	-- "Flip-flop" before wrt data -- 
 	process(clk, clr) begin
 		if(clr='1') then 
-			to_wrt_data <= (others=>'0'); 
+			to_rd_data <= (others=>'0'); 
 		elsif(clk'event and clk='1') then 
-			to_wrt_data <= from_IsLoad_mux; 
+			to_rd_data <= from_IsLoad_mux; 
 		end if; 
 	end process;
 	
-	-- "Flip-flop" before wrt enable -- 
+	-- "Flip-flop" before RF wrt enable -- 
 	process(clk, clr) begin
 		if(clr='1') then 
-			outWrtEnableFF <= '0'; --?
+			out_wrtEnableRF <= '0';
 		elsif(clk'event and clk='1') then 
-			outWrtEnableFF <= inWrtEnableFF; --?
+			out_wrtEnableRF <= in_wrtEnableRF;
 		end if; 
 	end process;
 	
