@@ -6,20 +6,19 @@ use ieee.numeric_std.all;
 entity ControlUnit is
 port (
 		Ins: IN std_logic_VECTOR(31 downto 0);
-		RegDst: OUT std_logic;
-		Memwrite: OUT std_logic;
-		Memread: OUT std_logic;
+		RegDst: OUT std_logic;		Memwrite: OUT std_logic;		Memread: OUT std_logic;
 		jump:OUT std_logic;
 		ALUop: OUT std_logic_vector(5 downto 0);
 		Branch: OUT std_logic_VECTOR(1 downto 0);
-		R_Type: OUT std_logic
+		R_Type: OUT std_logic;
+		RegWrite: OUT std_logic 
 );
 end ControlUnit;
 
 architecture Behavioral of ControlUnit is
 
-SIGNAL  opcode_1 : std_logic_VECTOR(3 downto 0);
-SIGNAL  ALUfuc : std_logic_VECTOR(5 downto 0);
+SIGNAL opcode_1 : std_logic_VECTOR(3 downto 0);
+SIGNAL ALUfuc : std_logic_VECTOR(5 downto 0);
 
 begin 
 
@@ -101,6 +100,17 @@ ALUop <=  ALUfuc  when "0000",
 			 "000101" when "1001",
 			 "000110" when "1010",
 			 "000000" when others;
+			 
+with opcode_1 select			 
+RegWrite<='1' when "0000",
+          '1' when "0001",
+			 '1' when "0010",
+			 '1' when "0011",
+			 '1' when "0100",
+			 '1' when "0101",
+			 '1' when "0110",
+			 '1' when "0111",
+			 '0' when others;
 			 
 with opcode_1 select
 Branch<= "01" when "1001",
