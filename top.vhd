@@ -10,8 +10,7 @@ entity top is
 		sw: in std_logic_vector(15 downto 0);
 		anode: out std_logic_vector(7 downto 0);
 		cathod: out std_logic_vector(6 downto 0);
-		led: out std_logic_vector(15 downto 0);
-		instruction: out std_logic_vector(31 downto 0)
+		led: out std_logic_vector(15 downto 0)
 	); 
 end top;
 
@@ -149,7 +148,7 @@ architecture Behavioral of top is
 	signal isHalt: std_logic;
 
 begin	
-   instruction <= to_PC; -- for test
+   --instruction <= to_PC; -- for test
 	
 	-- HALT instruction --
 --	with inst select
