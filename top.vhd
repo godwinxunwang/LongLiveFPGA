@@ -151,7 +151,7 @@ begin
 	
 	-- HALT instruction --
 	with inst select
-	  RC5_done <= '1' when "11111111111111111111111111111111",
+	  RC5_done <= '1' when "1111110000000000000000000000000",
 	              '0' when OTHERS;
 
 	-- State Machine --
@@ -299,7 +299,7 @@ begin
 	
 	-- Adder for PC -- 
 	with inst select
-	   PC1 <= PC_out when "11111111111111111111111111111111",
+	   PC1 <= PC_out when "1111110000000000000000000000000",
              PC_out + 1 when OTHERS;	
 	
 	-- Adder for Branch --
