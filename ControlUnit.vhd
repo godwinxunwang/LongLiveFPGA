@@ -11,6 +11,7 @@ port (
 		ALUop: OUT std_logic_vector(5 downto 0);
 		Branch: OUT std_logic_VECTOR(1 downto 0);
 		R_Type: OUT std_logic;
+		Halt: OUT std_logic;
 		RegWrite: OUT std_logic 
 );
 end ControlUnit;
@@ -123,5 +124,8 @@ with opcode_1 select
 R_Type<='1' when "0000",
 '0' when others;
 
+with Ins select
+Halt <= '1' when "11111100000000000000000000000000",
+        '0' when OTHERS;
 
 end Behavioral;

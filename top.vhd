@@ -85,7 +85,8 @@ architecture Behavioral of top is
 			ALUop: OUT std_logic_vector(5 downto 0);
 			Branch: OUT std_logic_VECTOR(1 downto 0);
 			R_Type: OUT std_logic;
-			RegWrite: OUT std_logic
+			RegWrite: OUT std_logic;
+			Halt: OUT std_logic
 		); 
 	end component; 
 	
@@ -145,14 +146,15 @@ architecture Behavioral of top is
 	signal isLoad: std_logic; 
 	signal isStore: std_logic; 
 	signal isBranch: std_logic; 
+	signal isHalt: std_logic;
 
 begin	
    instruction <= to_PC; -- for test
 	
 	-- HALT instruction --
-	with inst select
-	  RC5_done <= '1' when "1111110000000000000000000000000",
-	              '0' when OTHERS;
+--	with inst select
+--	  RC5_done <= '1' when "1111110000000000000000000000000",
+--	              '0' when OTHERS;
 
 	-- State Machine --
 --	process(clk, clr) begin
@@ -213,7 +215,8 @@ begin
 			R_Type => R_Type, -- R-Type 
 			jump => J_Type, -- J-Type
 			Branch => branchCMD, -- to comparitor
-			RegWrite => in_wrtEnableRF
+			RegWrite => in_wrtEnableRF,
+			Halt => isHalt
 			);
 			
 	CompareIST: Compare port map(
@@ -298,8 +301,8 @@ begin
 	end process;
 	
 	-- Adder for PC -- 
-	with inst select
-	   PC1 <= PC_out when "1111110000000000000000000000000",
+	with isHalt select
+	   PC1 <= PC_out when '1',
              PC_out + 1 when OTHERS;	
 	
 	-- Adder for Branch --
