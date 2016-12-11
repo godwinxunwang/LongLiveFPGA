@@ -172,7 +172,7 @@ begin
 	-- Display --
    with sw(0) select
 	  led_7 <= data_rf when '0',
-	           data_dm when '1';
+	           data_dm when others;
 	  
 	display_counter <= sw(10 downto 1);
 	led <= sw;
