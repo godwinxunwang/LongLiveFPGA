@@ -256,9 +256,9 @@ begin
 					           inst(20 downto 16) when others; 
 	
 	-- MUX between RFs and ALU -- 
-	--with I_Type select 
-		--to_op2 <= signExtendedImm when '1', 
-					--inst(20 downto 16) when others; 
+	with I_Type select 
+		to_op2 <= signExtendedImm when '1', 
+					 rd2 when others; 
 	
 	-- MUX after Dmem -- 
 	with IsLoad select 
