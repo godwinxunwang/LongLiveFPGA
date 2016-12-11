@@ -7,7 +7,10 @@ entity top is
 	port(
 		clr: in std_logic; 
 		clk: in std_logic;
-		instruction: out std_logic_vector(31 downto 0)
+		sw: in std_logic_vector(15 downto 0);
+		anode: out std_logic_vector(7 downto 0);
+		cathod: out std_logic_vector(6 downto 0);
+		led: out std_logic_vector(15 downto 0)
 	); 
 end top;
 
@@ -27,11 +30,12 @@ architecture Behavioral of top is
 	component DataMemory
 		port(		
 			 clk  	: IN  std_logic;
-			 rst     : IN  std_logic;
 			 wrtEn   : IN  std_logic;
 			 addr 	: IN  std_logic_vector(31 downto 0);
 			 datain  : IN  std_logic_vector(31 downto 0);
-			 dataout : OUT std_logic_vector(31 downto 0)
+			 i_cnt   : IN  std_logic_vector(9 downto 0);
+			 dataout : OUT std_logic_vector(31 downto 0);
+			 display_out: OUT std_logic_vector(31 downto 0)
 			);
 	end component; 
 	
@@ -46,7 +50,10 @@ architecture Behavioral of top is
 			wrtEn	:	IN STD_LOGIC;
 			wrtDa	: 	IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 			rd1	:	OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
-			rd2	:	OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+			rd2	:	OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+			-- for display --
+			i_cnt :  IN STD_LOGIC_VECTOR(4 DOWNTO 0);
+			display_out: OUT STD_LOGIC_VECTOR(31 downto 0)
 			);
 	end component; 
 	
@@ -72,12 +79,15 @@ architecture Behavioral of top is
 	component ControlUnit 
 		port(
 			Ins: IN std_logic_VECTOR(31 downto 0);
-			RegDst: OUT std_logic;			Memwrite: OUT std_logic;			Memread: OUT std_logic;
+			RegDst: OUT std_logic;
+			Memwrite: OUT std_logic;
+			Memread: OUT std_logic;
 			jump:OUT std_logic;
 			ALUop: OUT std_logic_vector(5 downto 0);
 			Branch: OUT std_logic_VECTOR(1 downto 0);
 			R_Type: OUT std_logic;
-			RegWrite: OUT std_logic
+			RegWrite: OUT std_logic;
+			Halt: OUT std_logic
 		); 
 	end component; 
 	
@@ -96,13 +106,10 @@ architecture Behavioral of top is
 	   port(
 		   d0, d1, d2, d3, d4, d5, d6, d7: in STD_LOGIC_VECTOR(3 downto 0);
 	      clk: in STD_LOGIC;
-			sec: out STD_LOGIC_VECTOR(7 downto 0);
-			num: out STD_LOGIC_VECTOR(6 downto 0)
+			a: out STD_LOGIC_VECTOR(7 downto 0);
+			c: out STD_LOGIC_VECTOR(6 downto 0)
 		);
 	end component;
-<<<<<<< HEAD
-
-=======
    
 	--type state_type is (ST_INI, ST_DONE);
 	--signal state: state_type:= ST_INI;
@@ -111,9 +118,8 @@ architecture Behavioral of top is
 	signal data_rf: std_logic_vector(31 downto 0);
 	signal data_dm: std_logic_vector(31 downto 0);
 	signal led_7: std_logic_vector(31 downto 0);
-	--signal RC5_done: std_logic;
+	signal RC5_done: std_logic;
 	
->>>>>>> origin/master
 	signal alu_out: std_logic_vector(31 downto 0); 
 	signal ALUop: std_logic_vector(5 downto 0);
 	signal dataout: std_logic_vector(31 downto 0); 
@@ -141,11 +147,9 @@ architecture Behavioral of top is
 	signal isLoad: std_logic; 
 	signal isStore: std_logic; 
 	signal isBranch: std_logic; 
+	signal isHalt: std_logic;
 
 begin	
-<<<<<<< HEAD
-   instruction <= to_PC; -- for test
-=======
    --instruction <= to_PC; -- for test
 	
 	-- HALT instruction --
@@ -167,28 +171,27 @@ begin
 	-- Display --
    with sw(0) select
 	  led_7 <= data_rf when '0',
-	           data_dm when '1',
-				  (OTHERS => '0') when OTHERS;
+	           data_dm when '1';
 	  
 	display_counter <= sw(10 downto 1);
 	led <= sw;
 	
->>>>>>> origin/master
 	-- Component Mapping -- 
 	ALUIST: ALU port map(
 			op1 => rd1, 
-			op2 => to_op2, 
-			funct => ALUop, 
+			op2 => rd2, 
+			funct => inst(5 downto 0), 
 			alu_out => alu_out
 			); 
 			
 	DMem: DataMemory port map(
 			clk => clk,
-			rst => clr,
 			wrtEn => isStore, -- from Decoder, via FF 
 			addr => alu_out,
 			datain => rd2,
-			dataout => dataout -- to write RF -- ¼ÓFF
+			i_cnt => display_counter, -- for display
+			dataout => dataout, -- to write RF -- ¼ÓFF
+			display_out => data_dm -- for display
 			); 
 			
 	RF: Reg_32 port map(
@@ -200,17 +203,23 @@ begin
 			wrtEn => out_wrtEnableRF, -- from Decoder via FF -- ¼ÓFF
 			wrtDa => to_rd_data, -- from Dmem via FF 
 			rd1 => rd1,
-			rd2 => rd2
+			rd2 => rd2,
+			-- for display --
+			i_cnt => display_counter(4 downto 0),
+			display_out => data_rf
 		); 
 	
 	Decoder: ControlUnit port map(
 			Ins => inst, 
 			RegDst => I_Type, -- I-Type
-			ALUOp => ALUop, -- when R-type, func			Memwrite => isStore, -- isStore			Memread => isLoad, -- isLoad
+			ALUOp => ALUop, -- when R-type, func
+			Memwrite => isStore, -- isStore
+			Memread => isLoad, -- isLoad
 			R_Type => R_Type, -- R-Type 
 			jump => J_Type, -- J-Type
 			Branch => branchCMD, -- to comparitor
-			RegWrite => in_wrtEnableRF
+			RegWrite => in_wrtEnableRF,
+			Halt => isHalt
 			);
 			
 	CompareIST: Compare port map(
@@ -224,6 +233,20 @@ begin
 	
 	Instruction_mem: IMEM port map(addr => PC_out, Ins => inst);
 	
+	LEDController: to7seg port map(
+	      d0 => led_7(3 downto 0),
+         d1 => led_7(7 downto 4),
+         d2 => led_7(11 downto 8),
+			d3 => led_7(15 downto 12),
+			d4 => led_7(19 downto 16),
+			d5 => led_7(23 downto 20),
+			d6 => led_7(27 downto 24),
+			d7 => led_7(31 downto 28),
+	      clk => clk,
+			a => anode,
+			c => cathod
+			);
+	
 	-- MUX's -- 
 	-- MUX before RFs -- 
 	with I_Type select 
@@ -231,9 +254,9 @@ begin
 					           inst(20 downto 16) when others; 
 	
 	-- MUX between RFs and ALU -- 
-	with I_Type select 
-		to_op2 <= signExtendedImm when '1', 
-					 rd2 when others; 
+	--with I_Type select 
+		--to_op2 <= signExtendedImm when '1', 
+					--inst(20 downto 16) when others; 
 	
 	-- MUX after Dmem -- 
 	with IsLoad select 
@@ -281,7 +304,9 @@ begin
 	end process;
 	
 	-- Adder for PC -- 
-	PC1 <= PC_out + 1; 
+	with isHalt select
+	   PC1 <= PC_out when '1',
+             PC_out + 1 when OTHERS;	
 	
 	-- Adder for Branch --
 	PC_Branch <= PC1 + signExtendedImm;
