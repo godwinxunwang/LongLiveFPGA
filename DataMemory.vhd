@@ -26,7 +26,7 @@ begin
 
   process(clk) is begin
     if rising_edge(clk) then
-      if wrtEn = '1' then ram(to_integer(unsigned(addr))) <= datain; end if;
+      if wrtEn = '1' then ram(to_integer(unsigned(addr(9 downto 0)))) <= datain; end if;
     end if;
   end process;
 
