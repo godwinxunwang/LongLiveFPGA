@@ -6,7 +6,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 entity DataMemory is
   port (
     clk  	: IN  std_logic;
-	 rst     : IN  std_logic;
+	 --rst     : IN  std_logic;
     wrtEn   : IN  std_logic;
     addr 	: IN  std_logic_vector(31 downto 0);
     datain  : IN  std_logic_vector(31 downto 0);
@@ -19,27 +19,18 @@ end entity DataMemory;
 architecture RTL of DataMemory is
 
    type ram_type is array (1023 downto 0) of std_logic_vector(31 downto 0);
-   signal ram : ram_type;
-   signal read_address : std_logic_vector(31 downto 0);
+   signal ram : ram_type:= (OTHERS => (OTHERS => '0'));
+   --signal read_address : std_logic_vector(31 downto 0):= (OTHERS => '0');
 
 begin
 
-  process(clk, rst) is
-
-  begin
-    if rst = '1' then --reset
-		for i in 0 to 1023 loop
-			ram(i) <= (others => '0');
-		end loop;
-    elsif rising_edge(clk) then
-      if wrtEn = '1' then
-        ram(to_integer(unsigned(addr))) <= datain;
-      end if;
-      read_address <= addr;
+  process(clk) is begin
+    if rising_edge(clk) then
+      if wrtEn = '1' then ram(to_integer(unsigned(addr))) <= datain; end if;
     end if;
   end process;
 
-  dataout <= ram(to_integer(unsigned(read_address)));
+  dataout <= ram(conv_integer(addr(9 downto 0)));
   display_out <= ram(conv_integer(i_cnt));
 
 end architecture RTL;

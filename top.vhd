@@ -30,7 +30,7 @@ architecture Behavioral of top is
 	component DataMemory
 		port(		
 			 clk  	: IN  std_logic;
-			 rst     : IN  std_logic;
+			 --rst     : IN  std_logic;
 			 wrtEn   : IN  std_logic;
 			 addr 	: IN  std_logic_vector(31 downto 0);
 			 datain  : IN  std_logic_vector(31 downto 0);
@@ -44,7 +44,7 @@ architecture Behavioral of top is
 	component Reg_32
 		port(		
 			clk	: 	IN STD_LOGIC;
-			rst	:	IN STD_LOGIC;
+			--rst	:	IN STD_LOGIC;
 			rs		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 			rd		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 			rt		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -119,7 +119,7 @@ architecture Behavioral of top is
 	signal data_rf: std_logic_vector(31 downto 0);
 	signal data_dm: std_logic_vector(31 downto 0);
 	signal led_7: std_logic_vector(31 downto 0);
-	signal RC5_done: std_logic;
+	--signal RC5_done: std_logic;
 	
 	signal alu_out: std_logic_vector(31 downto 0); 
 	signal ALUop: std_logic_vector(5 downto 0);
@@ -138,7 +138,7 @@ architecture Behavioral of top is
 	signal from_IsLoad_mux: std_logic_vector(31 downto 0); 
 	signal from_I_Type_left: std_logic_vector(4 downto 0); 
 	
-	signal incPC: std_logic_vector(31 downto 0); 
+	--signal incPC: std_logic_vector(31 downto 0); 
 	signal branchCMD: std_logic_VECTOR(1 downto 0); 
 	
 	-- MUX's signals -- 
@@ -187,7 +187,7 @@ begin
 			
 	DMem: DataMemory port map(
 			clk => clk,
-			rst => clr,
+			--rst => clr,
 			wrtEn => isStore, -- from Decoder, via FF 
 			addr => alu_out,
 			datain => rd2,
@@ -198,7 +198,7 @@ begin
 			
 	RF: Reg_32 port map(
 			clk => clk, 
-			rst => clr, 
+			--rst => clr, 
 			rs => inst(25 downto 21), 
 			rt => inst(20 downto 16),  
 			rd => to_rd, 
