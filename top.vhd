@@ -30,6 +30,7 @@ architecture Behavioral of top is
 	component DataMemory
 		port(		
 			 clk  	: IN  std_logic;
+			 rst     : IN  std_logic;
 			 wrtEn   : IN  std_logic;
 			 addr 	: IN  std_logic_vector(31 downto 0);
 			 datain  : IN  std_logic_vector(31 downto 0);
@@ -186,6 +187,7 @@ begin
 			
 	DMem: DataMemory port map(
 			clk => clk,
+			rst => clr,
 			wrtEn => isStore, -- from Decoder, via FF 
 			addr => alu_out,
 			datain => rd2,
