@@ -180,7 +180,7 @@ begin
 	-- Component Mapping -- 
 	ALUIST: ALU port map(
 			op1 => rd1, 
-			op2 => rd2, 
+			op2 => to_op2, 
 			funct => inst(5 downto 0), 
 			alu_out => alu_out
 			); 
