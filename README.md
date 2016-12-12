@@ -25,6 +25,7 @@
 
 ####Simulations are done in ModelSim/Isim
 
+####The architecture of our processor is shown below 
 
 ![icon](http://godwinxunwang.com/mips.png)
 
