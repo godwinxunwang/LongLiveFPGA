@@ -149,7 +149,11 @@ architecture Behavioral of top is
 	signal isHalt: std_logic;
 	
    -- State Machine Signals--
-	type state_type is (ST_INI, ST_IN1, ST_IN2, ST_IN3, ST_IN4, ST_IN5, ST_IN6, ST_IN7, ST_IN8, ST_WRT_DATA, ST_CHOOSE_FUNC, ST_CHOOSE_MODE, ST_DISPLAY);
+	type state_type is (ST_INI, ST_IN1, ST_IN2, ST_IN3, ST_IN4, ST_IN5, ST_IN6, 
+	                    ST_IN7, ST_IN8, ST_WRT_EX_DATA1, ST_WRT_EX_DATA2, ST_WRT_EX_DATA3, 
+							  ST_WRT_EX_DATA4, ST_CHOOSE_FUNC, ST_ENCODE, ST_DECODE, 
+							  ST_WRT_EN_DATA1, ST_WRT_EN_DATA2, ST_CHOOSE_MODE, ST_START, ST_OP, 
+							  ST_REPEAT, ST_DISPLAY);
 	signal currentstate, nextstate: state_type:= ST_INI;
 	
 	-- Input Signals --
@@ -157,17 +161,23 @@ architecture Behavioral of top is
 	
 	-- BU ZHI DAO JIAO SHEN ME SIGNALS!!!!!!!! --
 	signal FSM_WrtEn: std_logic:= '0';
-	signal FSM_Wrt_Count: std_logic_vector(9 downto 0):= (OTHERS => '0');
+	signal FSM_Wrt_Addr: std_logic_vector(9 downto 0):= (OTHERS => '0');
 	signal FSM_Wrt_Data: std_logic_vector(31 downto 0);
 	signal isExpansion: std_logic:= '1';
 	signal FSM_Wrt_i: std_logic_vector(1 downto 0):= "00";
 	signal FSM_Wrt_Done: std_logic;
+	signal PC_clr: std_logic;
+	signal to_Dmem_wrten: std_logic;
+	signal to_Dmem_addr: std_logic_vector(9 downto 0);
+   signal to_Dmem_data: std_logic_vector(31 downto 0);
 	
 	-- Button Signals --
 	signal clr: std_logic;
 	signal left, center, right, down: std_logic;
 
 begin
+
+   PC_clr <= clr or down;
 	
 	-- Button --
 	clr <= btn(0);
@@ -199,7 +209,7 @@ begin
 							 end if;
 		 when ST_IN4 => if (center = '1') then 
 		                  if (isExpansion = '1') then nextstate <= ST_IN5;
-								elsif (isExpansion = '0') then nextstate <= ST_CHOOSE_MODE;
+								elsif (isExpansion = '0') then nextstate <= ST_WRT_EN_DATA1;
 								end if;
 							 else nextstate <= ST_IN4;
 							 end if;
@@ -212,19 +222,31 @@ begin
 		 when ST_IN7 => if (center = '1') then nextstate <= ST_IN8;
 		                else nextstate <= ST_IN7;
 							 end if;
-		 when ST_IN8 => if (center = '1') then nextstate <= ST_WRT_DATA;
+		 when ST_IN8 => if (center = '1') then nextstate <= ST_WRT_EX_DATA1;
 		                else nextstate <= ST_IN8;
 							 end if;
-		 when ST_WRT_DATA => if (FSM_Wrt_Done = '1') then nextstate <= ST_CHOOSE_FUNC;
-		                     else nextstate <= ST_WRT_DATA;
-									end if;
-		 when ST_CHOOSE_FUNC => if (left = '1' or right = '1') then nextstate <= ST_IN1;
+		 when ST_WRT_EX_DATA1 => nextstate <= ST_WRT_EX_DATA2;
+		 when ST_WRT_EX_DATA2 => nextstate <= ST_WRT_EX_DATA3;
+		 when ST_WRT_EX_DATA3 => nextstate <= ST_WRT_EX_DATA4;
+		 when ST_WRT_EX_DATA4 => nextstate <= ST_CHOOSE_FUNC;
+		 when ST_CHOOSE_FUNC => if (left = '1') then nextstate <= ST_ENCODE;
+		                        elsif (right = '1') then nextstate <= ST_DECODE;
 		                        else nextstate <= ST_CHOOSE_FUNC;
 							         end if;
-		 when ST_CHOOSE_MODE => if (left = '1' or right = '1') then nextstate <= ST_DISPLAY;
+		 when ST_ENCODE => nextstate <= ST_IN1;
+		 when ST_DECODE => nextstate <= ST_IN1;
+		 when ST_WRT_EN_DATA1 => nextstate <= ST_WRT_EN_DATA2;
+		 when ST_WRT_EN_DATA2 => nextstate <= ST_CHOOSE_MODE;
+		 when ST_CHOOSE_MODE => if (left = '1' or right = '1') then nextstate <= ST_START;
 										elsif (down = '1') then nextstate <= ST_CHOOSE_FUNC;
 		                        else nextstate <= ST_CHOOSE_MODE;
 							         end if;
+		 when ST_START => nextstate <= ST_OP;
+		 when ST_OP => if (isHalt = '1') then nextstate <= ST_DISPLAY;
+		               elsif (down = '1') then nextstate <= ST_REPEAT;
+		               else nextstate <= ST_OP;
+							end if;
+		 when ST_REPEAT => nextstate <= ST_CHOOSE_FUNC;
 		 when ST_DISPLAY => if (down = '1') then nextstate <= ST_CHOOSE_FUNC;
 		                    else nextstate <= ST_DISPLAY;
 								  end if;
@@ -264,30 +286,66 @@ begin
     end if;
   end process;
   
-  -- Write to DMEM --
-  process (clk, clr) begin
-    if (clr = '1') then FSM_Wrt_i <= "00";
-	 elsif (clk'EVENT and clk = '1') then
-	   if (currentstate = ST_WRT_DATA) then
-		  if (isExpansion = '0') then
-		    if (FSM_Wrt_i = "01") then
-			   FSM_Wrt_Done <= '1';
-				FSM_Wrt_i <= "00";
-			 else FSM_Wrt_i <= FSM_Wrt_i + 1;
-			 end if;
-		  else
-		    if (FSM_Wrt_i = "11") then
-			   FSM_Wrt_Done <= '1';
-				FSM_Wrt_i <= "00";
-			 else FSM_Wrt_i <= FSM_Wrt_i + 1;
-			 end if;
-		  end if;
-		end if;
-	 end if;
-  end process;
+  -- Data to DMEM --
+  with currentstate select
+    FSM_Wrt_Data <= in1&in2 when ST_WRT_EX_DATA1,
+	                 in1&in2 when ST_WRT_EN_DATA1,
+	                 in3&in4 when ST_WRT_EX_DATA2,
+						  in3&in4 when ST_WRT_EN_DATA2,
+						  in5&in6 when ST_WRT_EX_DATA3,
+						  in7&in8 when ST_WRT_EX_DATA4,
+						  x"00000000" when ST_CHOOSE_FUNC,
+						  x"00000000" when ST_ENCODE, -- Choose encode
+                    x"00000001" when ST_DECODE,	-- Choose decode	
+                    x"00000001" when ST_START,     -- Start program	
+                    x"00000001" when ST_REPEAT,	-- Repeat enc or dec
+                    x"00000000" when ST_INI,	   			  
+						  (OTHERS => '0') when OTHERS;
+						  
+  -- Write Enable --
+  with currentstate select
+    FSM_WrtEn <= '1' when ST_INI,
+	              '1' when ST_WRT_EX_DATA1,
+	              '1' when ST_WRT_EN_DATA1,
+	              '1' when ST_WRT_EX_DATA2,
+					  '1' when ST_WRT_EN_DATA2,
+					  '1' when ST_WRT_EX_DATA3,
+					  '1' when ST_WRT_EX_DATA4,
+					  '1' when ST_CHOOSE_FUNC,
+					  '1' when ST_ENCODE,
+                 '1' when ST_DECODE,
+					  '1' when ST_START,
+					  '1' when ST_REPEAT,
+					  '0' when OTHERS; 
+  
+  -- Write Address --
+  with currentstate select
+    FSM_Wrt_Addr <= "0010000000" when ST_WRT_EX_DATA1, -- DMEM[256]
+	                 "0010000001" when ST_WRT_EX_DATA2, -- DMEM[257]
+						  "0010000010" when ST_WRT_EX_DATA3, -- DMEM[258]
+						  "0010000011" when ST_WRT_EX_DATA4, -- DMEM[259]
+						  "0010000100" when ST_WRT_EN_DATA1, -- DMEM[260]
+						  "0010000101" when ST_WRT_EN_DATA2, -- DMEM[261]
+						  "0100000000" when ST_ENCODE, -- DMEM[512]
+						  "0100000000" when ST_DECODE, -- DMEM[512]
+						  "0100000001" when ST_START, -- DMEM[513]
+						  "0100000001" when ST_CHOOSE_FUNC, -- DMEM[513]
+						  "0100000010" when ST_REPEAT, -- DMEM[514]
+						  "0100000010" when ST_INI, -- DMEM[514]
+						  (OTHERS => '1') when OTHERS;
+						  
+  -- MUXs --
+  with currentstate select
+    to_Dmem_wrten <= isStore when ST_OP,
+                     FSM_WrtEn when OTHERS;
 
-				
-							 
+  with currentstate select
+    to_Dmem_addr <= alu_out when ST_OP,
+                    FSM_Wrt_Addr when OTHERS;
+ 
+  with currentstate select
+    to_Dmem_data <= rd2 when ST_OP,
+                    FSM_Wrt_Data when OTHERS;	 
 							 
 							
 							 
@@ -313,9 +371,9 @@ begin
 	DMem: DataMemory port map(
 			clk => clk,
 			--rst => clr,
-			wrtEn => isStore, -- from Decoder, via FF 
-			addr => alu_out,
-			datain => rd2,
+			wrtEn => to_Dmem_wrten, -- from Decoder, via FF 
+			addr => to_Dmem_addr,
+			datain => to_Dmem_data,
 			i_cnt => display_counter, -- for display
 			dataout => dataout, -- to write RF -- ¼ÓFF
 			display_out => data_dm -- for display
@@ -356,7 +414,7 @@ begin
 		   isBranch => isBranch
 			);
 		
-	PC_FF: PC port map(CLOCK => clk,CLEAR => clr, D => to_PC, Q => PC_out); 
+	PC_FF: PC port map(CLOCK => clk,CLEAR => PC_clr, D => to_PC, Q => PC_out); 
 	
 	Instruction_mem: IMEM port map(addr => PC_out, Ins => inst);
 	
