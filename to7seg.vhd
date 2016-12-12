@@ -30,8 +30,9 @@ entity to7seg is
 port(
      d0, d1, d2, d3, d4, d5, d6, d7: in STD_LOGIC_VECTOR(3 downto 0);
 	  clk: in STD_LOGIC;
-	  sec: out STD_LOGIC_VECTOR(7 downto 0);
-	  num: out STD_LOGIC_VECTOR(6 downto 0));
+	  letter: in STD_LOGIC_VECTOR(7 downto 0);
+	  a: out STD_LOGIC_VECTOR(7 downto 0);
+	  c: out STD_LOGIC_VECTOR(6 downto 0));
 end to7seg;
 
 architecture Behavioral of to7seg is
@@ -42,26 +43,27 @@ signal cnt: STD_LOGIC_VECTOR(12 downto 0):= (OTHERS => '0');
 component to7seg_single
 port (
 d_in: in STD_LOGIC_VECTOR(3 downto 0);
+letter: in STD_LOGIC;
 q: out STD_LOGIC_VECTOR(6 downto 0));
 end component;
 
 begin
 
-  led0: to7seg_single port map(d_in => d0, q => q0);
-  led1: to7seg_single port map(d_in => d1, q => q1);
-  led2: to7seg_single port map(d_in => d2, q => q2);
-  led3: to7seg_single port map(d_in => d3, q => q3);
-  led4: to7seg_single port map(d_in => d4, q => q4);
-  led5: to7seg_single port map(d_in => d5, q => q5);
-  led6: to7seg_single port map(d_in => d6, q => q6);
-  led7: to7seg_single port map(d_in => d7, q => q7);
+  led0: to7seg_single port map(d_in => d0, q => q0, letter => letter(0));
+  led1: to7seg_single port map(d_in => d1, q => q1, letter => letter(1));
+  led2: to7seg_single port map(d_in => d2, q => q2, letter => letter(2));
+  led3: to7seg_single port map(d_in => d3, q => q3, letter => letter(3));
+  led4: to7seg_single port map(d_in => d4, q => q4, letter => letter(4));
+  led5: to7seg_single port map(d_in => d5, q => q5, letter => letter(5));
+  led6: to7seg_single port map(d_in => d6, q => q6, letter => letter(6));
+  led7: to7seg_single port map(d_in => d7, q => q7, letter => letter(7));
   
   process(clk) begin
     if (clk'EVENT and clk='1') then	cnt <= cnt + 1; end if;
   end process;
 
       with cnt(12 downto 10) select
-	     sec <= "11111110" when "000",
+	     a <= "11111110" when "000",
 		       "11111101" when "001",
 		       "11111011" when "010",
 		       "11110111" when "011",
@@ -72,7 +74,7 @@ begin
 		       "11111111" when others;
     
 	   with cnt(12 downto 10) select
-	     num <= q0 when "000",
+	     c <= q0 when "000",
 		       q1 when "001",
 		       q2 when "010",
 		       q3 when "011",
