@@ -26,5 +26,5 @@
 ####Simulations are done in ModelSim/Isim
 
 
-![icon](http://www.dataio.com/portals/0/iStock_000005613425Small.jpg)
+![icon](http://godwinxunwang.com/mips.png)
 
