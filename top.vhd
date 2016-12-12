@@ -286,7 +286,7 @@ begin
     end if;
   end process;
   
-  -- Data to DMEM --
+  -- Write Data --
   with currentstate select
     FSM_Wrt_Data <= in1&in2 when ST_WRT_EX_DATA1,
 	                 in1&in2 when ST_WRT_EN_DATA1,
