@@ -107,6 +107,7 @@ architecture Behavioral of top is
 	   port(
 		   d0, d1, d2, d3, d4, d5, d6, d7: in STD_LOGIC_VECTOR(3 downto 0);
 	      clk: in STD_LOGIC;
+			letter: in STD_LOGIC_VECTOR(7 downto 0);
 			a: out STD_LOGIC_VECTOR(7 downto 0);
 			c: out STD_LOGIC_VECTOR(6 downto 0)
 		);
@@ -116,7 +117,7 @@ architecture Behavioral of top is
 	signal display_counter: std_logic_vector(9 downto 0);
 	signal data_rf: std_logic_vector(31 downto 0);
 	signal data_dm: std_logic_vector(31 downto 0);
-	signal led_7: std_logic_vector(31 downto 0);
+	signal led_7: std_logic_vector(39 downto 0);
 	
 	--signal RC5_done: std_logic;
 	
@@ -168,8 +169,9 @@ architecture Behavioral of top is
 	signal FSM_Wrt_Done: std_logic;
 	signal PC_clr: std_logic;
 	signal to_Dmem_wrten: std_logic;
-	signal to_Dmem_addr: std_logic_vector(9 downto 0);
+	signal to_Dmem_addr: std_logic_vector(31 downto 0);
    signal to_Dmem_data: std_logic_vector(31 downto 0);
+	signal Data_Display: std_logic_vector(31 downto 0);
 	
 	-- Button Signals --
 	signal clr: std_logic;
@@ -193,7 +195,7 @@ begin
 	  end if;
    end process;
 	
-	process (currentstate, center) begin
+	process (currentstate, center, left, right, down, isHalt) begin
      case currentstate is
        when ST_INI => if (center = '1') then nextstate <= ST_IN1;
 		                else nextstate <= ST_INI;
@@ -334,6 +336,39 @@ begin
 						  "0100000010" when ST_INI, -- DMEM[514]
 						  (OTHERS => '1') when OTHERS;
 						  
+  
+  -- LED Display --
+  process (clk, clr) begin
+    if (clr = '1') then led_7 <= (OTHERS => '0');
+	 elsif (clk'EVENT and clk = '1') then 
+	   case currentstate is
+		  when ST_INI => led_7 <= (OTHERS => '0');  
+		  when ST_IN1 => led_7 <= "0000000000000000000000000000000000000001";
+		  when ST_IN2 => led_7 <= "0000000000000000000000000000000000000010";
+		  when ST_IN3 => led_7 <= "0000000000000000000000000000000000000011";
+		  when ST_IN4 => led_7 <= "0000000000000000000000000000000000000100";
+		  when ST_IN5 => led_7 <= "0000000000000000000000000000000000000101";
+		  when ST_IN6 => led_7 <= "0000000000000000000000000000000000000110";
+		  when ST_IN7 => led_7 <= "0000000000000000000000000000000000000111";
+		  when ST_IN8 => led_7 <= "0000000000000000000000000000000000001000";
+		  when ST_WRT_EX_DATA1 => NULL;
+		  when ST_WRT_EX_DATA2 => NULL;
+		  when ST_WRT_EX_DATA3 => NULL;
+		  when ST_WRT_EX_DATA4 => NULL;
+		  when ST_CHOOSE_FUNC => led_7 <= "1111110011001001000000000101111000010000";
+		  when ST_ENCODE => NULL;
+		  when ST_DECODE => NULL;
+		  when ST_WRT_EN_DATA1 => NULL;
+		  when ST_WRT_EN_DATA2 => NULL;
+		  when ST_CHOOSE_MODE => led_7 <= "1111110011001001000000000101111000100000";
+        when ST_START => NULL;
+		  when ST_OP => NULL;
+		  when ST_REPEAT => NULL;
+		  when ST_DISPLAY => led_7 <= "00000000"&Data_Display;
+      end case;
+    end if;
+  end process;
+						  
   -- MUXs --
   with currentstate select
     to_Dmem_wrten <= isStore when ST_OP,
@@ -341,7 +376,7 @@ begin
 
   with currentstate select
     to_Dmem_addr <= alu_out when ST_OP,
-                    FSM_Wrt_Addr when OTHERS;
+                    "0000000000000000000000"&FSM_Wrt_Addr when OTHERS;
  
   with currentstate select
     to_Dmem_data <= rd2 when ST_OP,
@@ -353,8 +388,8 @@ begin
 		 
 	-- Display --
    with sw(0) select
-	  led_7 <= data_rf when '0',
-	           data_dm when others;
+	  Data_Display <= data_rf when '0',
+	                  data_dm when others;
 	  
 	display_counter <= sw(10 downto 1);
 	led <= sw;
@@ -428,6 +463,7 @@ begin
 			d6 => led_7(27 downto 24),
 			d7 => led_7(31 downto 28),
 	      clk => clk,
+			letter => led_7(39 downto 32),
 			a => anode,
 			c => cathod
 			);
