@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 
 entity top is
 	port(
-		clr: in std_logic; 
+		btn: in std_logic_vector(4 downto 0); 
 		clk: in std_logic;
 		sw: in std_logic_vector(15 downto 0);
 		anode: out std_logic_vector(7 downto 0);
@@ -112,13 +112,12 @@ architecture Behavioral of top is
 		);
 	end component;
    
-	--type state_type is (ST_INI, ST_DONE);
-	--signal state: state_type:= ST_INI;
-	
+	-- Display Signals --
 	signal display_counter: std_logic_vector(9 downto 0);
 	signal data_rf: std_logic_vector(31 downto 0);
 	signal data_dm: std_logic_vector(31 downto 0);
 	signal led_7: std_logic_vector(31 downto 0);
+	
 	--signal RC5_done: std_logic;
 	
 	signal alu_out: std_logic_vector(31 downto 0); 
@@ -138,7 +137,6 @@ architecture Behavioral of top is
 	signal from_IsLoad_mux: std_logic_vector(31 downto 0); 
 	signal from_I_Type_left: std_logic_vector(4 downto 0); 
 	
-	--signal incPC: std_logic_vector(31 downto 0); 
 	signal branchCMD: std_logic_VECTOR(1 downto 0); 
 	
 	-- MUX's signals -- 
@@ -149,26 +147,152 @@ architecture Behavioral of top is
 	signal isStore: std_logic; 
 	signal isBranch: std_logic; 
 	signal isHalt: std_logic;
-
-begin	
-   --instruction <= to_PC; -- for test
 	
-	-- HALT instruction --
---	with inst select
---	  RC5_done <= '1' when "1111110000000000000000000000000",
---	              '0' when OTHERS;
+   -- State Machine Signals--
+	type state_type is (ST_INI, ST_IN1, ST_IN2, ST_IN3, ST_IN4, ST_IN5, ST_IN6, ST_IN7, ST_IN8, ST_WRT_DATA, ST_CHOOSE_FUNC, ST_CHOOSE_MODE, ST_DISPLAY);
+	signal currentstate, nextstate: state_type:= ST_INI;
+	
+	-- Input Signals --
+	signal in1, in2, in3, in4, in5, in6, in7, in8: std_logic_vector(15 downto 0);
+	
+	-- BU ZHI DAO JIAO SHEN ME SIGNALS!!!!!!!! --
+	signal FSM_WrtEn: std_logic:= '0';
+	signal FSM_Wrt_Count: std_logic_vector(9 downto 0):= (OTHERS => '0');
+	signal FSM_Wrt_Data: std_logic_vector(31 downto 0);
+	signal isExpansion: std_logic:= '1';
+	signal FSM_Wrt_i: std_logic_vector(1 downto 0):= "00";
+	signal FSM_Wrt_Done: std_logic;
+	
+	-- Button Signals --
+	signal clr: std_logic;
+	signal left, center, right, down: std_logic;
 
+begin
+	
+	-- Button --
+	clr <= btn(0);
+	right <= btn(1);
+	center <= btn(2);
+	left <= btn(3);
+	down <= btn(4);
+	
 	-- State Machine --
---	process(clk, clr) begin
---	  if (clr = '1') then state <= ST_INI;
---	  elsif (clk'EVENT and clk = '1') then
---	    case state is
---		   when ST_INI => if (RC5_done = '1') then state <= ST_DONE; else state <= ST_INI; end if;
---			when ST_DONE => state <= ST_DONE;
---		 end case;
---	  end if;
---	end process;
+	process (clk, clr) begin
+     if (clr = '1') then currentstate <= ST_INI;
+	  elsif (clk'EVENT and clk = '1') then currentstate <= nextstate;
+	  end if;
+   end process;
 	
+	process (currentstate, center) begin
+     case currentstate is
+       when ST_INI => if (center = '1') then nextstate <= ST_IN1;
+		                else nextstate <= ST_INI;
+							 end if;
+		 when ST_IN1 => if (center = '1') then nextstate <= ST_IN2;
+		                else nextstate <= ST_IN1;
+							 end if;
+	    when ST_IN2 => if (center = '1') then nextstate <= ST_IN3;
+		                else nextstate <= ST_IN2;
+							 end if;
+		 when ST_IN3 => if (center = '1') then nextstate <= ST_IN4;
+		                else nextstate <= ST_IN3;
+							 end if;
+		 when ST_IN4 => if (center = '1') then 
+		                  if (isExpansion = '1') then nextstate <= ST_IN5;
+								elsif (isExpansion = '0') then nextstate <= ST_CHOOSE_MODE;
+								end if;
+							 else nextstate <= ST_IN4;
+							 end if;
+		 when ST_IN5 => if (center = '1') then nextstate <= ST_IN6;
+		                else nextstate <= ST_IN5;
+							 end if;
+		 when ST_IN6 => if (center = '1') then nextstate <= ST_IN7;
+		                else nextstate <= ST_IN6;
+							 end if;
+		 when ST_IN7 => if (center = '1') then nextstate <= ST_IN8;
+		                else nextstate <= ST_IN7;
+							 end if;
+		 when ST_IN8 => if (center = '1') then nextstate <= ST_WRT_DATA;
+		                else nextstate <= ST_IN8;
+							 end if;
+		 when ST_WRT_DATA => if (FSM_Wrt_Done = '1') then nextstate <= ST_CHOOSE_FUNC;
+		                     else nextstate <= ST_WRT_DATA;
+									end if;
+		 when ST_CHOOSE_FUNC => if (left = '1' or right = '1') then nextstate <= ST_IN1;
+		                        else nextstate <= ST_CHOOSE_FUNC;
+							         end if;
+		 when ST_CHOOSE_MODE => if (left = '1' or right = '1') then nextstate <= ST_DISPLAY;
+										elsif (down = '1') then nextstate <= ST_CHOOSE_FUNC;
+		                        else nextstate <= ST_CHOOSE_MODE;
+							         end if;
+		 when ST_DISPLAY => if (down = '1') then nextstate <= ST_CHOOSE_FUNC;
+		                    else nextstate <= ST_DISPLAY;
+								  end if;
+	  end case;
+   end process;
+	
+	-- isExpansion --
+	process (clk, clr) begin
+	  if (clr = '1') then isExpansion <= '1';
+	  elsif (clk'EVENT and clk = '1') then 
+	    if (currentstate = ST_CHOOSE_FUNC) then isExpansion <= '0'; end if;
+	  end if;
+   end process;
+	
+	-- Input --
+	process (clk, clr) begin
+    if (clr = '1') then in1 <= (OTHERS => '0');
+	                     in2 <= (OTHERS => '0');
+								in3 <= (OTHERS => '0');
+								in4 <= (OTHERS => '0');
+								in5 <= (OTHERS => '0');
+								in6 <= (OTHERS => '0');
+								in7 <= (OTHERS => '0');
+								in8 <= (OTHERS => '0');
+	 elsif (clk'EVENT and clk = '1') then 
+	   case currentstate is
+		  when ST_IN1 => in1 <= sw;
+		  when ST_IN2 => in2 <= sw;
+		  when ST_IN3 => in3 <= sw;
+		  when ST_IN4 => in4 <= sw;
+		  when ST_IN5 => in5 <= sw;
+		  when ST_IN6 => in6 <= sw;
+		  when ST_IN7 => in7 <= sw;
+		  when ST_IN8 => in8 <= sw;
+		  when OTHERS => NULL;
+		end case;
+    end if;
+  end process;
+  
+  -- Write to DMEM --
+  process (clk, clr) begin
+    if (clr = '1') then FSM_Wrt_i <= "00";
+	 elsif (clk'EVENT and clk = '1') then
+	   if (currentstate = ST_WRT_DATA) then
+		  if (isExpansion = '0') then
+		    if (FSM_Wrt_i = "01") then
+			   FSM_Wrt_Done <= '1';
+				FSM_Wrt_i <= "00";
+			 else FSM_Wrt_i <= FSM_Wrt_i + 1;
+			 end if;
+		  else
+		    if (FSM_Wrt_i = "11") then
+			   FSM_Wrt_Done <= '1';
+				FSM_Wrt_i <= "00";
+			 else FSM_Wrt_i <= FSM_Wrt_i + 1;
+			 end if;
+		  end if;
+		end if;
+	 end if;
+  end process;
+
+				
+							 
+							 
+							
+							 
+---------------------------------------------------- Processor -------------------------------------------------------------------				 
+		 
 	-- Display --
    with sw(0) select
 	  led_7 <= data_rf when '0',
@@ -177,6 +301,7 @@ begin
 	display_counter <= sw(10 downto 1);
 	led <= sw;
 	
+
 	-- Component Mapping -- 
 	ALUIST: ALU port map(
 			op1 => rd1, 
