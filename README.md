@@ -4,6 +4,8 @@
 
 ### <font color=#0099ff> LongLiveFPGA Group </font> 
 
+[Click here to view our poster](http://godwinxunwang.com/EL6463FinalPoster-LongLiveFPGA.pptx.pdf)
+
 *****************************************************************************
 ###Group Members (alphabetically ordered): 
 * Wei Lin
