@@ -428,7 +428,7 @@ begin
 			rst => clr, 
 			rs => inst(25 downto 21), 
 			rt => inst(20 downto 16),  
-			rd => to_rd, 
+			rd => from_I_Type_left, 
 			wrtEn => in_wrtEnableRF, -- from Decoder via FF 
 			wrtDa => from_IsLoad_mux, -- from IsLoad MUX 
 			rd1 => rd1,
@@ -507,13 +507,13 @@ begin
 								 "0000000000000000" & inst(15 downto 0) when others; 
 	
 	-- "Flip-flop" before Wrt Register -- 
-	process(clk, clr) begin
-		if(clr='1') then 
-			to_rd <= "00000"; 
-		elsif(clk'event and clk='1') then 
-			to_rd <= from_I_Type_left; 
-		end if; 
-	end process; 
+	--process(clk, clr) begin
+	--	if(clr='1') then 
+	--		to_rd <= "00000"; 
+	--	elsif(clk'event and clk='1') then 
+	--		to_rd <= from_I_Type_left; 
+	--	end if; 
+	--end process; 
 	
 	
 	-- "Flip-flop" before wrt data -- 
