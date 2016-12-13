@@ -55,11 +55,11 @@ def Main():
         if not parsed:
             FatalError("Parse error", parser.line_no())
         elif parser._command_type == R_COMMAND:
-            output_file.write("{}{}{}{}{}{}\n".format(parser._opcode, parser._rs, parser._rt, parser._rd, parser._shamt, parser._funct))
+            output_file.write("{}{}{}{}{}{}{}{}\n".format("\"", parser._opcode, parser._rs, parser._rt, parser._rd, parser._shamt, parser._funct, "\", "))
         elif parser._command_type == I_COMMAND:
-            output_file.write("{}{}{}{}\n".format(parser._opcode, parser._rs, parser._rt, parser._imm))
+            output_file.write("{}{}{}{}{}{}\n".format("\"", parser._opcode, parser._rs, parser._rt, parser._imm, "\", "))
         elif parser._command_type == J_COMMAND: 
-            output_file.write("{}{}\n".format(parser._opcode, parser._jAddr))
+            output_file.write("{}{}{}{}\n".format("\"", parser._opcode, parser._jAddr, "\", "))
         parsed = parser.advance()   
         
         #print("Current command type ->", parser._command_type)
