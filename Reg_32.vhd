@@ -35,16 +35,18 @@ begin
 
 process(clk, rst)
 begin
-   if rst = '1' then reg(31 downto 1) <= (OTHERS => (OTHERS => '0'));
+   if rst = '1' then reg <= (OTHERS => (OTHERS => '0'));
 	elsif rising_edge(clk) then  -- write data
-   	if wrtEn = '1' then reg(to_integer(unsigned(rd)))(31 downto 0) <= wrtDa(31 downto 0); 
+   	if wrtEn = '1' then 
+		  if (conv_integer(rd) = 0) then reg(0) <= (OTHERS => '0');
+		  else reg(to_integer(unsigned(rd)))(31 downto 0) <= wrtDa(31 downto 0); end if;
 		end if;
 	end if;
 
 
 end process;
 -- &0 --
-reg(0) <= (OTHERS => '0');
+--reg(0) <= (OTHERS => '0');
 
 --output
 rd1 <= reg(to_integer(unsigned(rs)));
