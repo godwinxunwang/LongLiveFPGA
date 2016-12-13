@@ -7,7 +7,7 @@ entity Reg_32 is
 port (
 	--clock and reset signal
 	clk	: 	IN STD_LOGIC;
-	--rst	:	IN STD_LOGIC;
+	rst	:	IN STD_LOGIC;
 	--5 bit input register
 	rs		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 	rd		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -35,8 +35,9 @@ begin
 
 process(clk)
 begin
-	if rising_edge(clk) then  -- write data
-		if wrtEn = '1' then 
+	if rising_edge(clk, rst) then  -- write data
+	   if rst = '1' then reg <= (OTHERS => (OTHERS => '0'));
+		elsif wrtEn = '1' then 
 			reg(to_integer(unsigned(rd)))(31 downto 0) <= wrtDa(31 downto 0); 
 		end if;
 	end if;

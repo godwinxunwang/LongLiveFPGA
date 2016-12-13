@@ -30,7 +30,7 @@ architecture Behavioral of top is
 	component DataMemory
 		port(		
 			 clk  	: IN  std_logic;
-			 --rst     : IN  std_logic;
+			 rst     : IN  std_logic;
 			 wrtEn   : IN  std_logic;
 			 addr 	: IN  std_logic_vector(31 downto 0);
 			 datain  : IN  std_logic_vector(31 downto 0);
@@ -44,7 +44,7 @@ architecture Behavioral of top is
 	component Reg_32
 		port(		
 			clk	: 	IN STD_LOGIC;
-			--rst	:	IN STD_LOGIC;
+			rst	:	IN STD_LOGIC;
 			rs		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 			rd		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
 			rt		:	IN STD_LOGIC_VECTOR(4 DOWNTO 0);
@@ -414,7 +414,7 @@ begin
 			
 	DMem: DataMemory port map(
 			clk => clk,
-			--rst => clr,
+			rst => clr,
 			wrtEn => to_Dmem_wrten, -- from Decoder, via FF 
 			addr => to_Dmem_addr,
 			datain => to_Dmem_data,
@@ -425,12 +425,12 @@ begin
 			
 	RF: Reg_32 port map(
 			clk => clk, 
-			--rst => clr, 
+			rst => clr, 
 			rs => inst(25 downto 21), 
 			rt => inst(20 downto 16),  
 			rd => to_rd, 
-			wrtEn => out_wrtEnableRF, -- from Decoder via FF -- ¼ÓFF
-			wrtDa => to_rd_data, -- from Dmem via FF 
+			wrtEn => out_wrtEnableRF, -- from Decoder via FF 
+			wrtDa => from_I_Type_left, -- from left I-type MUX 
 			rd1 => rd1,
 			rd2 => rd2,
 			-- for display --
@@ -507,13 +507,14 @@ begin
 								 "0000000000000000" & inst(15 downto 0) when others; 
 	
 	-- "Flip-flop" before Wrt Register -- 
-	process(clk, clr) begin
-		if(clr='1') then 
-			to_rd <= "00000"; 
-		elsif(clk'event and clk='1') then 
-			to_rd <= from_I_Type_left; 
-		end if; 
-	end process; 
+	--process(clk, clr) begin
+	--	if(clr='1') then 
+	--		to_rd <= "00000"; 
+	--	elsif(clk'event and clk='1') then 
+	--		to_rd <= from_I_Type_left; 
+	--	end if; 
+	--end process; 
+	
 	
 	-- "Flip-flop" before wrt data -- 
 	process(clk, clr) begin
