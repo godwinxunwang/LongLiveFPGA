@@ -166,7 +166,6 @@ architecture Behavioral of top is
 	signal FSM_Wrt_Data: std_logic_vector(31 downto 0);
 	signal isExpansion: std_logic:= '1';
 	signal FSM_Wrt_i: std_logic_vector(1 downto 0):= "00";
-	signal FSM_Wrt_Done: std_logic;
 	signal PC_clr: std_logic;
 	signal to_Dmem_wrten: std_logic;
 	signal to_Dmem_addr: std_logic_vector(31 downto 0);
@@ -176,17 +175,25 @@ architecture Behavioral of top is
 	-- Button Signals --
 	signal clr: std_logic;
 	signal left, center, right, down: std_logic;
+	signal btnbuffer: std_logic_vector(4 downto 0); 
+	signal btnx, btny: std_logic_vector(4 downto 0):= "00000";
 
 begin
 
    PC_clr <= clr or down;
 	
 	-- Button --
-	clr <= btn(0);
-	right <= btn(1);
-	center <= btn(2);
-	left <= btn(3);
-	down <= btn(4);
+	clr <= btnbuffer(0);
+	right <= btnbuffer(1);
+	center <= btnbuffer(2);
+	left <= btnbuffer(3);
+	down <= btnbuffer(4);
+	
+	process (clk, btn) begin
+    btnx <= btn;
+	 if (clk'EVENT and clk = '1') then btny <= btnx; end if;
+   end process;
+   btnbuffer <= btnx and (btnx xor btny);
 	
 	-- State Machine --
 	process (clk, clr) begin
