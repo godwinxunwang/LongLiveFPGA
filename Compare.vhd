@@ -16,8 +16,8 @@ begin
 process(branch, rs, rt) begin
   case branch is
     when "01" => if (rs < rt) then isBranch <= '1'; else isBranch <= '0'; end if;
-	 when "10" => if (not(rs = rt)) then isBranch <= '1'; else isBranch <= '0'; end if;
-	 when "11" => if (rs = rt) then isBranch <= '1'; else isBranch <= '0'; end if;
+	 when "10" => if (rs = rt) then isBranch <= '1'; else isBranch <= '0'; end if;
+	 when "11" => if (not(rs = rt)) then isBranch <= '1'; else isBranch <= '0'; end if;
 	 when OTHERS => isBranch <= '0';
   end case;
 end process;
