@@ -337,12 +337,12 @@ begin
 						  -- A and B for Enc and Dec --
 						  "0100101100" when ST_WRT_EN_DATA1, -- DMEM[300]
 						  "0100101101" when ST_WRT_EN_DATA2, -- DMEM[301]
-						  "0100000000" when ST_ENCODE, -- DMEM[512]
-						  "0100000000" when ST_DECODE, -- DMEM[512]
-						  "0100000001" when ST_START, -- DMEM[513]
-						  "0100000001" when ST_CHOOSE_FUNC, -- DMEM[513]
-						  "0100000010" when ST_REPEAT, -- DMEM[514]
-						  "0100000010" when ST_INI, -- DMEM[514]
+						  "1000000000" when ST_ENCODE, -- DMEM[512]
+						  "1000000000" when ST_DECODE, -- DMEM[512]
+						  "1000000001" when ST_START, -- DMEM[513]
+						  "1000000001" when ST_CHOOSE_FUNC, -- DMEM[513]
+						  "1000000010" when ST_REPEAT, -- DMEM[514]
+						  "1000000010" when ST_INI, -- DMEM[514]
 						  (OTHERS => '1') when OTHERS;
 						  
   
