@@ -4,9 +4,8 @@
 # Assume user's 64-bit input is stored in $8 and $9 ($8 has A, $9 has B)
 # Assume $0 = 0
 # use $15 to check whether to start the program 
-	lw $15, $0, 514
-	beq $15, $0, theEnd # if the start is set to 0, the jump to the end 
-
+# Decryption should start at line 200 in Intruction Memory 
+#-----------------Decryption-----------------------
 	lw $8, $0, 300  # load A from Dmem[300]
 	lw $9, $0, 301  # load B from Dmem[301]
 
@@ -15,6 +14,7 @@
 	lw $11, $0, 101  # Load DMem[1] (Skey[1]) to $11
 
 	addi $1, $0, 12
+	
 forDe:
 	add $2, $1, $1  # let $2 = 2*i
 

@@ -18,8 +18,6 @@ def Main():
         FatalError("Cannot open output file " + output_filename)
         
     #code = Code()
-    parser = Parser(input_filename)
-    parsed = parser.advance()
     '''
     while parser.has_more_commands():
         if not parsed:
@@ -35,8 +33,25 @@ def Main():
     '''
     #parser._command_type = NO_COMMAND
     #print("rawline:", parser._rawline)
+    labelParser = Parser(input_filename)
+    labelParsed = labelParser.getLabel()
+    
+    while labelParser.has_more_commands():
+        #print("-------begin-------")
+        #print(labelParser._validline_num)
+        if not labelParsed:
+            FatalError("Parse error", labelParser.line_no())
+
+        labelParsed = labelParser.getLabel()   
+    
+    print(jDict)    
+    
+    parser = Parser(input_filename)
+    parsed = parser.advance()
+    
     while parser.has_more_commands():
-        print("-------begin-------")
+        #print("-------begin-------")
+        #print(parser._line_number)
         if not parsed:
             FatalError("Parse error", parser.line_no())
         elif parser._command_type == R_COMMAND:
