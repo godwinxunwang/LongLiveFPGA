@@ -166,7 +166,7 @@ class Parser(object):
                 self._rs = "{0:05b}".format(int(secondSplit[0]))
                 
                 if(splittedString[0] in branchCommand): 
-                    self._imm = "{0:016b}".format(int(jDict.get(secondSplit[1])))
+                    self._imm = (bin((1 << 16) + (int(jDict.get(secondSplit[1])) - self._line_number - 1  ) )[2:])[0:16]
                 else: 
                     self._imm = "{0:016b}".format(int(secondSplit[1]))
                 
