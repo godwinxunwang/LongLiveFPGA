@@ -1,17 +1,17 @@
 ##############################################################
 ##  RC5 Decryption Function ##
-# Assume Skey[0..25] has been store in DMem[0..25]
+# Assume Skey[0..25] has been store in DMem[100..125]
 # Assume user's 64-bit input is stored in $8 and $9 ($8 has A, $9 has B)
 # Assume $0 = 0
 
-	lw $10, $0, 0  # Load DMem[0] (Skey[0]) to $10
-	lw $11, $0, 1  # Load DMem[1] (Skey[1]) to $11
+	lw $10, $0, 100  # Load DMem[0] (Skey[0]) to $10
+	lw $11, $0, 101  # Load DMem[1] (Skey[1]) to $11
 
 	addi $1, $0, 12
 forDe:
 	add $2, $1, $1  # let $2 = 2*i
 
-	lw $22, $2, 1  # $22 <= Skey[2*i+1]
+	lw $22, $2, 100  # $22 <= Skey[2*i+1]
 
 	sub $23, $9, $22  # B-Skey[2*i+1]
 
@@ -30,7 +30,7 @@ shiftRightByA:
 	nor $19, $8, $23
 	nor $9, $18, $19
 
-	lw $22, $2, 0  # $22 <= Skey[2*i]
+	lw $22, $2, 100  # $22 <= Skey[2*i]
 
 	sub $23, $8, $22  # A-Skey[2*i]
 
