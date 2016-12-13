@@ -1,0 +1,5 @@
+User key for Key Expansion: DMEM[400] to DMEM[403]
+Input of Encoding and Decoding: DMEM[300] and DMEM[301]
+Encoding or Decoding Signal: DMEM[512]
+Program Start Signal: DMEM[513]
+Start from Key Expansion or Enc/Dec Signal: DMEM[514]

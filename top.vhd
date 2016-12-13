@@ -329,12 +329,14 @@ begin
   
   -- Write Address --
   with currentstate select
-    FSM_Wrt_Addr <= "0010000000" when ST_WRT_EX_DATA1, -- DMEM[256]
-	                 "0010000001" when ST_WRT_EX_DATA2, -- DMEM[257]
-						  "0010000010" when ST_WRT_EX_DATA3, -- DMEM[258]
-						  "0010000011" when ST_WRT_EX_DATA4, -- DMEM[259]
-						  "0010000100" when ST_WRT_EN_DATA1, -- DMEM[260]
-						  "0010000101" when ST_WRT_EN_DATA2, -- DMEM[261]
+    FSM_Wrt_Addr <= -- User key for Key Expansion --
+	                 "0110010000" when ST_WRT_EX_DATA1, -- DMEM[400]
+	                 "0110010001" when ST_WRT_EX_DATA2, -- DMEM[401]
+						  "0110010010" when ST_WRT_EX_DATA3, -- DMEM[402]
+						  "0110010011" when ST_WRT_EX_DATA4, -- DMEM[403]
+						  -- A and B for Enc and Dec --
+						  "0100101100" when ST_WRT_EN_DATA1, -- DMEM[300]
+						  "0100101101" when ST_WRT_EN_DATA2, -- DMEM[301]
 						  "0100000000" when ST_ENCODE, -- DMEM[512]
 						  "0100000000" when ST_DECODE, -- DMEM[512]
 						  "0100000001" when ST_START, -- DMEM[513]
