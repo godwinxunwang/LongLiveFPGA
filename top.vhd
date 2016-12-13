@@ -78,7 +78,7 @@ architecture Behavioral of top is
 	
 	-- Decoder -- 
 	component ControlUnit 
-		port(
+			port(
 			Ins: IN std_logic_VECTOR(31 downto 0);
 			RegDst: OUT std_logic;
 			Memwrite: OUT std_logic;
