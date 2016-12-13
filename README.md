@@ -1,11 +1,10 @@
 ##Final Project - Single Cycle MIPS Microprocessor Implementation
-<<<<<<< HEAD
-###  --- EL-GY 6463 Advanced Hardware Design --- 
-=======
+
 ### >>> EL-GY 6463 Advanced Hardware Design <<< 
->>>>>>> origin/master
 
 ### <font color=#0099ff> LongLiveFPGA Group </font> 
+
+[Click here to view our poster](http://godwinxunwang.com/EL6463FinalPoster-LongLiveFPGA.pptx.pdf)
 
 *****************************************************************************
 ###Group Members (alphabetically ordered): 
@@ -28,6 +27,7 @@
 
 ####Simulations are done in ModelSim/Isim
 
+####The architecture of our processor is shown below 
 
-![icon](http://www.dataio.com/portals/0/iStock_000005613425Small.jpg)
+![icon](http://godwinxunwang.com/mips.png)
 
