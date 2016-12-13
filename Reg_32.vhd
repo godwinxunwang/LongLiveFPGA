@@ -35,7 +35,7 @@ begin
 
 process(clk, rst)
 begin
-   if rst = '1' then reg <= (OTHERS => (OTHERS => '0'));
+   if rst = '1' then reg(31 downto 1) <= (OTHERS => (OTHERS => '0'));
 	elsif rising_edge(clk) then  -- write data
    	if wrtEn = '1' then reg(to_integer(unsigned(rd)))(31 downto 0) <= wrtDa(31 downto 0); 
 		end if;
