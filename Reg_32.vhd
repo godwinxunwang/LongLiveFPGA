@@ -43,6 +43,8 @@ begin
 
 
 end process;
+-- &0 --
+reg(0) <= (OTHERS => '0');
 
 --output
 rd1 <= reg(to_integer(unsigned(rs)));
