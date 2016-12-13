@@ -130,6 +130,9 @@ shiftLeftByA:
 
 	subi $31, $1, 12
 	bne $0, $31, forEn
+	
+	sw $8, $0, 600 # Store A back to DMem[600]
+	sw $9, $0, 601 # Store B back to DMem[601]
 
 doDecryption: 
 #-----------------Decryption-----------------------
@@ -189,5 +192,8 @@ shiftRightByB:
 
 	sub $9, $9, $11  # B = B - Skey[1]
 	sub $8, $8, $10  # A = A - Skey[0]
+	
+	sw $8, $0, 602 # Store A back to DMem[602]
+	sw $9, $0, 603 # Store B back to DMem[603]
 
 	halt
