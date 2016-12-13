@@ -166,7 +166,15 @@ class Parser(object):
                 self._rs = "{0:05b}".format(int(secondSplit[0]))
                 
                 if(splittedString[0] in branchCommand): 
-                    self._imm = (bin((1 << 16) + (int(jDict.get(secondSplit[1])) - self._line_number - 1  ) )[2:])[0:16]
+                    print(int(jDict.get(secondSplit[1])))
+                    if(jDict.get(secondSplit[1])-self._line_number < 0): 
+                        self._imm = (bin((1 << 16) + (jDict.get(secondSplit[1])-self._line_number + 8))[2:])
+                    else: 
+                        self._imm = (bin((1 << 16) + (jDict.get(secondSplit[1])-self._line_number + 1))[2:])
+                    if(len(self._imm) == 17):
+                        self._imm = self._imm[1:]
+                    print(self._imm)
+
                 else: 
                     self._imm = "{0:016b}".format(int(secondSplit[1]))
                 
@@ -175,7 +183,7 @@ class Parser(object):
             elif(":" in newline): # if is label 
                 #print("hello label")
                 self._command_type = L_COMMAND
-                jDict.update({newline[:-1]:(self._validline_num-1)})
+                #jDict.update({newline[:-1]:(self._validline_num-1)})
                 return True
                 
             elif(splitted[0] in rCommand):  
