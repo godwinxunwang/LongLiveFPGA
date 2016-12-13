@@ -3,6 +3,13 @@
 # Assume Skey[0..25] has been store in DMem[100..125]
 # Assume user's 64-bit input is stored in $8 and $9 ($8 has A, $9 has B)
 # Assume $0 = 0
+# use $15 to check whether to start the program 
+	lw $15, $0, 514
+	beq $15, $0, theEnd # if the start is set to 0, the jump to the end 
+
+	lw $8, $0, 300  # load A from Dmem[300]
+	lw $9, $0, 301  # load B from Dmem[301]
+
 
 	lw $10, $0, 100  # Load DMem[0] (Skey[0]) to $10
 	lw $11, $0, 101  # Load DMem[1] (Skey[1]) to $11

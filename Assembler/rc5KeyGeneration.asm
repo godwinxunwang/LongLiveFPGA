@@ -1,10 +1,24 @@
 # DMem's Capacity: 1024 * 32 bits 
 # Assume $0 = 0 
+# User key for Key Expansion: DMEM[400] to DMEM[403]
+# Program Start Signal is at DMEM[513] (load and store in $15) 
 # Assume intial values of S_array are stored in Dmem[100..125]
 # Assume intial values of L_array are stored in Dmem[200..203]
 # Assume user-key is stored in $6, $7, $8, $9 from MSB to LSB, which is L_array from 0 to 3
 # Assume A is in $10, and B is in $11  
 # For each loop, S[i] is temporarily stored in $16. L[j] is temporarily stored in $26. i is in $1, j is in $2, k is in $3. $4 is for shift loop counter 
+
+CheckPoint: 
+	# Load program start check singal to $15 
+	lw $15, $0, 513 
+	#if start signal is 0, then go back to the check point; otherwise, proceed 
+	beq $15, $0, CheckPoint
+
+	# Load User-key to the designated registers: 
+	lw $6, $0, 400 
+	lw $7, $0, 401
+	lw $8, $0, 402
+	lw $9, $0, 403
 
 	add $1, $0, $0 # let $1 be 0, $1 will be the i iterator
 	add $2, $0, $0 # let $2 be 0, $2 will be the j iterator
@@ -14,15 +28,15 @@
 	addi $7, $0, 78  # $7 has value 78 
 	
 forBegin: 
-	lw $16, 100($1) # load s[i] from DMem with offset 100 
+	lw $16, $1, 100 # load s[i] from DMem with offset 100 
 	add $17, $10, $11
 	add $18, $16, $17 
 	
 	shl $19, $18, 3 # (S[i] + A + B) <<< 3
 	
-	sw $19, 100($1) # save the result to s[i] 
+	sw $19, $1, 100 # save the result to s[i] 
 	
-	lw $26, 200($2) # load L[j] from Dmem with offset 200 
+	lw $26, $2, 200 # load L[j] from Dmem with offset 200 
 	add $27, $10, $11  # store (A+B) in $27 
 	add $28, $26, $27 
 	
@@ -33,7 +47,7 @@ shiftLeft:
 	shl $28, $28, 1  # shift result will be stored in $28 
 	bne $4, $0, shiftLeft 
 	
-	sw $28, 200($2)
+	sw $28, $2, 200
 
 	bne  $1, $30, L1    # branch if ( i != 26 ) 
 	jmp E1
