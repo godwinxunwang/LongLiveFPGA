@@ -429,7 +429,7 @@ begin
 			rs => inst(25 downto 21), 
 			rt => inst(20 downto 16),  
 			rd => to_rd, 
-			wrtEn => out_wrtEnableRF, -- from Decoder via FF 
+			wrtEn => in_wrtEnableRF, -- from Decoder via FF 
 			wrtDa => from_IsLoad_mux, -- from IsLoad MUX 
 			rd1 => rd1,
 			rd2 => rd2,
@@ -480,8 +480,8 @@ begin
 	-- MUX's -- 
 	-- MUX before RFs -- 
 	with I_Type select 
-		from_I_Type_left <= inst(15 downto 11) when '1', 
-					           inst(20 downto 16) when others; 
+		from_I_Type_left <= inst(20 downto 16) when '1', 
+					           inst(15 downto 11) when others; 
 	
 	-- MUX between RFs and ALU -- 
 	with I_Type select 
@@ -526,13 +526,13 @@ begin
 	--end process;
 	
 	-- "Flip-flop" before RF wrt enable -- 
-	process(clk, clr) begin
-		if(clr='1') then 
-			out_wrtEnableRF <= '0';
-		elsif(clk'event and clk='1') then 
-			out_wrtEnableRF <= in_wrtEnableRF;
-		end if; 
-	end process;
+	--process(clk, clr) begin
+	--	if(clr='1') then 
+	--		out_wrtEnableRF <= '0';
+	--	elsif(clk'event and clk='1') then 
+	--		out_wrtEnableRF <= in_wrtEnableRF;
+	--	end if; 
+	--end process;
 	
 	-- Adder for PC -- 
 	with isHalt select
