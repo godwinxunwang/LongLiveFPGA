@@ -21,7 +21,7 @@ forBegin:
 	add $27, $10, $11  # store (A+B) in $27 
 	add $28, $26, $27 
 	#left shift by (A+B) 
-	add $4, $0, $27  # copy $27 to $4
+	andi $4, $27, 31  # copy $27 to $4
 shiftLeft: 
 	subi $4, $4, 1 # $4 is the shift loop counter 
 	shl $28, $28, 1  # shift result will be stored in $28 
