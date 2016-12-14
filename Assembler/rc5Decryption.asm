@@ -3,8 +3,6 @@
 # Assume Skey[0..25] has been store in DMem[100..125]
 # Assume user's 64-bit input is stored in $8 and $9 ($8 has A, $9 has B)
 # Assume $0 = 0
-# use $15 to check whether to start the program 
-# Decryption should start at line 200 in Intruction Memory 
 #-----------------Decryption-----------------------
 	lw $8, $0, 300  # load A from Dmem[300]
 	lw $9, $0, 301  # load B from Dmem[301]
@@ -62,5 +60,8 @@ shiftRightByB:
 
 	sub $9, $9, $11  # B = B - Skey[1]
 	sub $8, $8, $10  # A = A - Skey[0]
+
+	sw $8, $0, 602 # Store A back to DMem[602]
+	sw $9, $0, 603 # Store B back to DMem[603]
 
 	halt

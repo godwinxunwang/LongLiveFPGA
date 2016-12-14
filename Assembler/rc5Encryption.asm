@@ -3,12 +3,7 @@
 # Assume Skey[0..25] has been store in DMem[100..125]
 # Assume user's 64-bit input is stored in $8 and $9 ($8 has A, $9 has B)
 # Assume $0 = 0
-# use $15 to check whether to start the program 
-# Encryption should start at line 100 in Instruction Memory 
 #-----------------Encryption-----------------------
-#Check if skip Encryption 
-	lw $15, $0, 512 
-	beq $15, $0, doDecryption
 
 	lw $8, $0, 300  # load A from Dmem[300]
 	lw $9, $0, 301  # load B from Dmem[301]
@@ -65,3 +60,6 @@ shiftLeftByA:
 
 	subi $31, $1, 12
 	bne $0, $31, forEn
+
+	sw $8, $0, 600 # Store A back to DMem[600]
+	sw $9, $0, 601 # Store B back to DMem[601]

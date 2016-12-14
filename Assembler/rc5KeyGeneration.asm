@@ -1,13 +1,4 @@
-# KeyGeneration starts at line 0 in Instruction Memory, Encryption should start at line 100 in Instruction Memory , and Decryption should start at line 200 in Instruction Memory 
-
 startCheckPoint: 
-	# Load program start check singal to $15 
-	lw $15, $0, 513 
-	#if start signal is 0, then go back to the check point; otherwise, proceed 
-	beq $15, $0, startCheckPoint
-# Check whether skip key-expansion 
-	lw $15, $0, 514
-	bne $15, $0, skipKeyExpansion # if DMem[514] = 1, skip to line 100, where the encryption starts 
 	# Load User-key to the designated registers: 
 	lw $6, $0, 400 
 	lw $7, $0, 401
