@@ -51,6 +51,7 @@ def Main():
     while parser.has_more_commands():
         #print("-------begin-------")
         #print(parser._line_number)
+        print("Line No: ", parser._line_number, ". ")
         if not parsed:
             FatalError("Parse error", parser.line_no())
         elif parser._command_type == R_COMMAND:
