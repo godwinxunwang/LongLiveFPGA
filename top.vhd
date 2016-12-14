@@ -30,7 +30,7 @@ architecture Behavioral of top is
 	component DataMemory
 		port(		
 			 clk  	: IN  std_logic;
-			 rst     : IN  std_logic;
+			 --rst     : IN  std_logic;
 			 wrtEn   : IN  std_logic;
 			 addr 	: IN  std_logic_vector(31 downto 0);
 			 datain  : IN  std_logic_vector(31 downto 0);
@@ -202,7 +202,7 @@ begin
 	  end if;
    end process;
 	
-	process (currentstate, center, left, right, down, isHalt) begin
+	process (currentstate, center, left, right, down, isHalt, isExpansion) begin
      case currentstate is
        when ST_INI => if (center = '1') then nextstate <= ST_IN1;
 		                else nextstate <= ST_INI;
@@ -371,7 +371,7 @@ begin
 		  when ST_WRT_EN_DATA2 => NULL;
 		  when ST_CHOOSE_MODE => led_7 <= "1111110011001001000000000101111000100000";
         when ST_START => NULL;
-		  when ST_OP => NULL;
+		  when ST_OP => led_7 <= "0000001100000000000000000000000000001000";
 		  when ST_REPEAT => NULL;
 		  when ST_DISPLAY => led_7 <= "00000000"&Data_Display;
       end case;
@@ -414,7 +414,7 @@ begin
 			
 	DMem: DataMemory port map(
 			clk => clk,
-			rst => clr,
+			--rst => clr,
 			wrtEn => to_Dmem_wrten, -- from Decoder, via FF 
 			addr => to_Dmem_addr,
 			datain => to_Dmem_data,
