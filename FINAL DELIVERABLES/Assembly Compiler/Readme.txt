@@ -1,0 +1,1 @@
+Put these three .py files with assembly code (.asm) in the same directory, type in "python3 asm.py filename.asm" in terminal to translate assembly code to machine code.
