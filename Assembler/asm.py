@@ -43,8 +43,7 @@ def Main():
             FatalError("Parse error", labelParser.line_no())
 
         labelParsed = labelParser.getLabel()   
-    
-    print(jDict)    
+       
     
     parser = Parser(input_filename)
     parsed = parser.advance()
@@ -61,6 +60,7 @@ def Main():
         elif parser._command_type == J_COMMAND: 
             output_file.write("{}{}{}{}\n".format("\"", parser._opcode, parser._jAddr, "\", "))
         parsed = parser.advance()   
+    print(jDict) 
         
         #print("Current command type ->", parser._command_type)
         #print("Line number: ", parser._line_number)

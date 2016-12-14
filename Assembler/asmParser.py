@@ -166,11 +166,11 @@ class Parser(object):
                 self._rs = "{0:05b}".format(int(secondSplit[0]))
                 
                 if(splittedString[0] in branchCommand): 
-                    print(int(jDict.get(secondSplit[1])))
+                    print("branch imm: ", jDict.get(secondSplit[1])-self._validline_num)
                     if(jDict.get(secondSplit[1])-self._line_number < 0): 
-                        self._imm = (bin((1 << 16) + (jDict.get(secondSplit[1])-self._line_number + 8))[2:])
+                        self._imm = (bin((1 << 16) + (jDict.get(secondSplit[1])-self._validline_num))[2:])
                     else: 
-                        self._imm = (bin((1 << 16) + (jDict.get(secondSplit[1])-self._line_number + 1))[2:])
+                        self._imm = (bin((1 << 16) + (jDict.get(secondSplit[1])-self._validline_num))[2:])
                     if(len(self._imm) == 17):
                         self._imm = self._imm[1:]
                     print(self._imm)
