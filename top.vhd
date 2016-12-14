@@ -160,7 +160,7 @@ architecture Behavioral of top is
 	-- Input Signals --
 	signal in1, in2, in3, in4, in5, in6, in7, in8: std_logic_vector(15 downto 0);
 	
-	-- BU ZHI DAO JIAO SHEN ME SIGNALS!!!!!!!! --
+	-- Controll Signals --
 	signal FSM_WrtEn: std_logic:= '0';
 	signal FSM_Wrt_Addr: std_logic_vector(9 downto 0):= (OTHERS => '0');
 	signal FSM_Wrt_Data: std_logic_vector(31 downto 0);
@@ -172,6 +172,7 @@ architecture Behavioral of top is
    signal to_Dmem_data: std_logic_vector(31 downto 0);
 	signal Data_Display: std_logic_vector(31 downto 0);
 	signal to_to_PC: std_logic_vector(31 downto 0);
+	signal switch: std_logic_vector(1 downto 0);
 	
 	-- Button Signals --
 	signal clr: std_logic;
@@ -419,11 +420,13 @@ begin
 ---------------------------------------------------- Processor -------------------------------------------------------------------				 
 		 
 	-- Display --
-   with sw(0) select
-	  Data_Display <= data_rf when '0',
-	                  data_dm when others;
+   with switch select
+	  Data_Display <= data_rf when "00",
+	                  data_dm when "01",
+							inst when OTHERS;
 	  
 	display_counter <= sw(10 downto 1);
+	switch <= sw(15)&sw(0);
 	led <= sw;
 	
 
