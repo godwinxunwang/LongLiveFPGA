@@ -154,7 +154,7 @@ architecture Behavioral of top is
 	                    ST_IN7, ST_IN8, ST_WRT_EX_DATA1, ST_WRT_EX_DATA2, ST_WRT_EX_DATA3, 
 							  ST_WRT_EX_DATA4, ST_CHOOSE_FUNC, ST_ENCODE, ST_DECODE, 
 							  ST_WRT_EN_DATA1, ST_WRT_EN_DATA2, ST_CHOOSE_MODE, ST_START, ST_OP, 
-							  ST_REPEAT, ST_DISPLAY);
+							  ST_START_SINGLE, ST_OP_SINGLE, ST_STALL, ST_REPEAT, ST_DISPLAY);
 	signal currentstate, nextstate: state_type:= ST_INI;
 	
 	-- Input Signals --
@@ -171,6 +171,7 @@ architecture Behavioral of top is
 	signal to_Dmem_addr: std_logic_vector(31 downto 0);
    signal to_Dmem_data: std_logic_vector(31 downto 0);
 	signal Data_Display: std_logic_vector(31 downto 0);
+	signal to_to_PC: std_logic_vector(31 downto 0);
 	
 	-- Button Signals --
 	signal clr: std_logic;
@@ -246,10 +247,17 @@ begin
 		 when ST_DECODE => nextstate <= ST_IN1;
 		 when ST_WRT_EN_DATA1 => nextstate <= ST_WRT_EN_DATA2;
 		 when ST_WRT_EN_DATA2 => nextstate <= ST_CHOOSE_MODE;
-		 when ST_CHOOSE_MODE => if (left = '1' or right = '1') then nextstate <= ST_START;
+		 when ST_CHOOSE_MODE => if (left = '1') then nextstate <= ST_START;
+		                        elsif (right = '1') then nextstate <= ST_START_SINGLE;
 										elsif (down = '1') then nextstate <= ST_CHOOSE_FUNC;
 		                        else nextstate <= ST_CHOOSE_MODE;
 							         end if;
+		 when ST_START_SINGLE => nextstate <= ST_OP_SINGLE;
+		 when ST_OP_SINGLE => nextstate <= ST_STALL;
+		 when ST_STALL => if (center = '1') then nextstate <= ST_OP_SINGLE;
+		                  elsif (down = '1') then nextstate <= ST_CHOOSE_MODE;
+								else nextstate <= ST_STALL;
+								end if;
 		 when ST_START => nextstate <= ST_OP;
 		 when ST_OP => if (isHalt = '1') then nextstate <= ST_DISPLAY;
 		               elsif (down = '1') then nextstate <= ST_REPEAT;
@@ -307,6 +315,7 @@ begin
 						  x"00000000" when ST_ENCODE, -- Choose encode
                     x"00000001" when ST_DECODE,	-- Choose decode	
                     x"00000001" when ST_START,     -- Start program	
+						  x"00000001" when ST_START_SINGLE, -- Start program
                     x"00000001" when ST_REPEAT,	-- Repeat enc or dec
                     x"00000000" when ST_INI,	   			  
 						  (OTHERS => '0') when OTHERS;
@@ -324,6 +333,7 @@ begin
 					  '1' when ST_ENCODE,
                  '1' when ST_DECODE,
 					  '1' when ST_START,
+					  '1' when ST_START_SINGLE,
 					  '1' when ST_REPEAT,
 					  '0' when OTHERS; 
   
@@ -340,6 +350,7 @@ begin
 						  "1000000000" when ST_ENCODE, -- DMEM[512]
 						  "1000000000" when ST_DECODE, -- DMEM[512]
 						  "1000000001" when ST_START, -- DMEM[513]
+						  "1000000001" when ST_START_SINGLE, -- DMEM[513]
 						  "1000000001" when ST_CHOOSE_FUNC, -- DMEM[513]
 						  "1000000010" when ST_REPEAT, -- DMEM[514]
 						  "1000000010" when ST_INI, -- DMEM[514]
@@ -370,8 +381,11 @@ begin
 		  when ST_WRT_EN_DATA1 => NULL;
 		  when ST_WRT_EN_DATA2 => NULL;
 		  when ST_CHOOSE_MODE => led_7 <= "1111110011001001000000000101111000100000";
+		  when ST_START_SINGLE => NULL;
         when ST_START => NULL;
 		  when ST_OP => led_7 <= "0000001100000000000000000000000000001000";
+		  when ST_OP_SINGLE => NULL;
+		  when ST_STALL => led_7 <= "00000000"&Data_Display;
 		  when ST_REPEAT => NULL;
 		  when ST_DISPLAY => led_7 <= "00000000"&Data_Display;
       end case;
@@ -381,17 +395,26 @@ begin
   -- MUXs --
   with currentstate select
     to_Dmem_wrten <= isStore when ST_OP,
+	                  isStore when ST_OP_SINGLE,
                      FSM_WrtEn when OTHERS;
 
   with currentstate select
     to_Dmem_addr <= alu_out when ST_OP,
+	                 alu_out when ST_OP_SINGLE,
                     "0000000000000000000000"&FSM_Wrt_Addr when OTHERS;
  
   with currentstate select
     to_Dmem_data <= rd2 when ST_OP,
+	                 rd2 when ST_OP_SINGLE,
                     FSM_Wrt_Data when OTHERS;	 
 							 
-							
+  with currentstate select
+    to_PC <= PC_out when ST_STALL,
+	          to_to_PC when OTHERS;
+				 
+  with currentstate select
+	 out_wrtEnableRF <= '0' when ST_STALL,
+	                    in_wrtEnableRF when OTHERS;
 							 
 ---------------------------------------------------- Processor -------------------------------------------------------------------				 
 		 
@@ -429,7 +452,7 @@ begin
 			rs => inst(25 downto 21), 
 			rt => inst(20 downto 16),  
 			rd => from_I_Type_left, 
-			wrtEn => in_wrtEnableRF, -- from Decoder via FF 
+			wrtEn => out_wrtEnableRF, -- from Decoder via FF 
 			wrtDa => from_IsLoad_mux, -- from IsLoad MUX 
 			rd1 => rd1,
 			rd2 => rd2,
@@ -495,9 +518,9 @@ begin
 								 
 	-- MUX to PC --
 	process(J_Type, isBranch, PC_Branch, PC1, Jump_PC) begin
-	    if (J_Type = '1') then to_PC <= Jump_PC;
-		 elsif (isBranch = '1') then to_PC <= PC_Branch;
-		 else to_PC <= PC1;
+	    if (J_Type = '1') then to_to_PC <= Jump_PC;
+		 elsif (isBranch = '1') then to_to_PC <= PC_Branch;
+		 else to_to_PC <= PC1;
 		 end if;
    end process;
 	
