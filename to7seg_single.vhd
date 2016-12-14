@@ -39,7 +39,7 @@ end to7seg_single;
 architecture Behavioral of to7seg_single is
 
 begin
-  process(d_in)
+  process(d_in, letter)
   begin
     if (letter = '0') then 
       case d_in is
